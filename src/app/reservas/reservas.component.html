@@ -1,1 +1,80 @@
-<p>reservas works!</p>
+<section class="reserva-container">
+  <!-- Filtros -->
+  <div class="filtros ">
+
+    <!-- Personas (select) -->
+    <select [(ngModel)]="personas" class="filtro-input">
+      <option value="" disabled selected>Personas</option>
+      <option *ngFor="let p of opcionesPersonas" [value]="p">{{ p }} persona{{ p > 1 ? 's' : '' }}</option>
+    </select>
+
+    <!-- Fecha (input date) -->
+    <input type="date"
+           [(ngModel)]="fecha"
+           class="filtro-input"
+           [min]="fechaMinima"
+           placeholder="Fecha" />
+
+    <!-- Hora (select limitado) -->
+    <select [(ngModel)]="hora" class="filtro-input">
+      <option value="" disabled selected>Hora</option>
+      <option *ngFor="let h of opcionesHoras" [value]="h">{{ h }}</option>
+    </select>
+
+  </div>
+
+  <!-- Mostrar el mapa si los filtros están completos -->
+  <div *ngIf="todosLosFiltrosSeleccionados()" class="mapa-container">
+    <img src="/mesas/mesas.png" alt="Mapa de mesas" class="rounded-lg shadow-md w-full" />
+      <div class="mesa-general" >
+        <!-- Mesa 1 -->
+        <div class="mesa-overlay" style="top: 28%; left: 14.2%; width: 90px; height: 56px;"></div>
+
+        <!-- Mesa 2 -->
+        <div class="mesa-overlay" style="top: 39.3%; left: 14.1%; width: 90px; height: 56px;"></div>
+        <!-- Mesa 3 -->
+        <div class="mesa-overlay" style="top: 66.5%; left: 13.8%; width: 90px; height: 56px;"></div>
+        <!-- Mesa 4 -->
+        <div class="mesa-overlay" style="top: 81%; left: 13.8%; width: 90px; height: 56px;"></div>
+        <!-- Mesa 5 -->
+        <div class="mesa-overlay" style="top: 48%; left: 30.9%; width: 83px; height: 56px;"></div>
+
+        <!-- Mesa 6 -->
+        <div class="mesa-overlay" style="top: 45.65%; left: 21.65%; width: 42px; height: 40px;"></div>
+        <!-- Mesa 7 -->
+        <div class="mesa-overlay" style="top: 45.65%; left: 26.8%; width: 42px; height: 40px;"></div>
+        <!-- Mesa 8 -->
+        <div class="mesa-overlay" style="top: 51%; left: 16.2%; width: 42px; height: 43px;"></div>
+        <!-- Mesa 9 -->
+        <div class="mesa-overlay" style="top: 61.8%; left: 32.15%; width: 42px; height: 42px;"></div>
+        <!-- Mesa 10 -->
+        <div class="mesa-overlay" style="top: 67%; left: 21.2%; width: 42px; height: 41px;"></div>
+        <!-- Mesa 11 -->
+        <div class="mesa-overlay" style="top: 74.9%; left: 21.1%; width: 42px; height: 40px;"></div>
+        <!-- Mesa 12 -->
+        <div class="mesa-overlay" style="top: 82.9%; left: 21.1%; width: 42px; height: 40px;"></div>
+
+        <!-- Mesa 13 -->
+        <div class="mesa-overlay" style="top: 28%; left: 22.9%; width: 59px; height: 105px;"></div>
+        <!-- Mesa 14 -->
+        <div class="mesa-overlay" style="top: 28%; left: 30.3%; width: 58px; height: 105px;"></div>
+    </div>
+    <div class = "mesa-privada">
+      <!-- Mesa 15 -->
+      <div class="mesa-overlay" style="top: 79%; left: 35.9%; width: 165px; height: 120px;"></div>
+      <!-- Mesa 16 -->
+      <div class="mesa-overlay" style="top: 79%; left: 45.4%; width: 165px; height: 120px;"></div>
+      <!-- Mesa 17 -->
+      <div class="mesa-overlay" style="top: 79%; left: 54.9%; width: 160px; height: 120px;"></div>
+    </div>
+    <div class="mesa-ejecutiva">
+      <!-- Mesa 18 -->
+      <div class="mesa-overlay" style="top: 79.5%; left: 68.5%; width: 66px; height: 110px;"></div>
+      <!-- Mesa 19 -->
+      <div class="mesa-overlay" style="top: 72.5%; left: 74.5%; width: 66px; height: 175px;"></div>
+      <!-- Mesa 20 -->
+      <div class="mesa-overlay" style="top: 68.9%; left: 80.5%; width: 66px; height: 205px;"></div>
+
+    </div>
+  </div>
+</section>
