@@ -1,0 +1,60 @@
+<section class="reserva-container">
+  <!-- Filtros -->
+  <div class="filtros ">
+
+    <!-- Personas (select) -->
+    <select [(ngModel)]="personas" class="filtro-input">
+      <option value="" disabled selected>Personas</option>
+      <option *ngFor="let p of opcionesPersonas" [value]="p">{{ p }} persona{{ p > 1 ? 's' : '' }}</option>
+    </select>
+
+    <!-- Fecha (input date) -->
+    <input type="date"
+           [(ngModel)]="fecha"
+           class="filtro-input"
+           [min]="fechaMinima"
+           placeholder="Fecha" />
+
+    <!-- Hora (select limitado) -->
+    <select [(ngModel)]="hora" class="filtro-input">
+      <option value="" disabled selected>Hora</option>
+      <option *ngFor="let h of opcionesHoras" [value]="h">{{ h }}</option>
+    </select>
+
+  </div>
+
+  <!-- Mostrar el mapa si los filtros están completos -->
+  <div *ngIf="todosLosFiltrosSeleccionados()" class="mapa-container">
+    <img src="/mesas/mesas.png" alt="Mapa de mesas" />
+
+    <div
+      *ngFor="let mesa of mesas"
+      class="mesa-overlay"
+      [ngStyle]="{
+    top: posicionesMesa[mesa.numeroMesa].top,
+    left: posicionesMesa[mesa.numeroMesa].left,
+    width: posicionesMesa[mesa.numeroMesa].width,
+    height: posicionesMesa[mesa.numeroMesa].height,
+    backgroundColor: mesa.estado === 'DISPONIBLE'
+      ? 'rgba(0,255,0,0.2)'
+      : mesa.estado === 'RESERVADO'
+      ? 'rgba(255,0,0,0.3)'
+      : 'rgba(255,255,0,0.3)'
+  }"
+
+    >
+      <div class="tooltip">
+        <div><strong>Mesa {{ mesa.numeroMesa }}</strong></div>
+        <div>Zona: {{ mesa.zona }}</div>
+        <div>Capacidad: {{ mesa.capacidad }}</div>
+        <div>Estado: {{ mesa.estado }}</div>
+
+        <button class="btn-reservar" (click)="empezarReserva(mesa)">
+          Empezar reserva
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+</section>
