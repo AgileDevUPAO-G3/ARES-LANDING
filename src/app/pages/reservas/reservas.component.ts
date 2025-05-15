@@ -62,6 +62,12 @@ export class ReservasComponent implements OnInit {
     return new Date().toISOString().split('T')[0];
   }
 
+  empezarReserva(mesa: Mesa): void {
+    console.log('Iniciando reserva para la mesa:', mesa);
+    // Aquí puedes abrir un modal, redirigir o guardar la mesa seleccionada
+  }
+
+
   todosLosFiltrosSeleccionados(): boolean {
     return this.personas !== null && this.fecha !== '' && this.hora !== '';
   }

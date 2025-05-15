@@ -41,8 +41,19 @@
       ? 'rgba(255,0,0,0.3)'
       : 'rgba(255,255,0,0.3)'
   }"
-      [title]="'Mesa ' + mesa.numeroMesa + ' (' + mesa.zona + ') Cap: ' + mesa.capacidad"
+
     >
+      <div class="tooltip">
+        <div><strong>Mesa {{ mesa.numeroMesa }}</strong></div>
+        <div>Zona: {{ mesa.zona }}</div>
+        <div>Capacidad: {{ mesa.capacidad }}</div>
+        <div>Estado: {{ mesa.estado }}</div>
+
+        <button class="btn-reservar" (click)="empezarReserva(mesa)">
+          Empezar reserva
+        </button>
+
+      </div>
     </div>
 
   </div>
