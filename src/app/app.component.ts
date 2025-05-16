@@ -7,7 +7,7 @@ import {ReservasComponent} from './pages/reservas/reservas.component';
 
 @Component({
   selector: 'app-root',
-  imports: [ NavbarComponent, FooterComponent, ReservasComponent],
+  imports: [NavbarComponent, FooterComponent, ReservasComponent, HomeComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

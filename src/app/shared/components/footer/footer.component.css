@@ -1,0 +1,29 @@
+.social-icons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 35px;
+}
+
+.social-icons .nav-item {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.social-icons .nav-item:last-child {
+    margin-right: 0;
+}
+
+.contacto {
+    margin-right: 150px;
+    padding: 35px;
+    color: white;
+    text-align: start;
+    padding: 10px;
+}
+
+.copyright {
+    color: white;
+    margin: 30px;
+}
