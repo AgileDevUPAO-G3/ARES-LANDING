@@ -1,10 +1,7 @@
 import { Routes } from '@angular/router';
-import {HomeComponent} from './pages/home/home.component';
-import {CartaComponent} from './pages/home/carta/carta.component';
-import {ReservasComponent} from './pages/reservas/reservas.component';
+import { MesasDisponiblesComponent } from './pages/mesas-disponibles/mesas-disponibles.component';
 
 export const routes: Routes = [
-  {path: '', component: HomeComponent},
-  {path: 'carta', component: CartaComponent},
-  {path: 'reservas', component: ReservasComponent},
+  { path: '', redirectTo: 'mesas-disponibles', pathMatch: 'full' },
+  { path: 'mesas-disponibles', component: MesasDisponiblesComponent }
 ];

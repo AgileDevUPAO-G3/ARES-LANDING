@@ -1,0 +1,20 @@
+<h2>Mesas Disponibles</h2>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>Número</th>
+      <th>Capacidad</th>
+      <th>Zona</th>
+      <th>Estado</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let mesa of mesas">
+      <td>{{ mesa.numeroMesa }}</td>
+      <td>{{ mesa.capacidad }}</td>
+      <td>{{ mesa.zona }}</td>
+      <td>{{ mesa.estado }}</td>
+    </tr>
+  </tbody>
+</table>
