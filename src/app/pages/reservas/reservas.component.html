@@ -41,7 +41,7 @@
         <div>Estado: {{ mesa.estado }}</div>
 
         <!-- Aqui agrego la funcion para q mande al path pagos(RegistroReserva) -->
-        <button class="btn-reservar" (click)="empezarReserva(mesa)">
+        <button class="btn-reservar" [routerLink]="['/registro-reservas', mesa.numeroMesa]">
           Empezar reserva
         </button>
 
