@@ -1,0 +1,73 @@
+.row{
+    background: #423e3e;
+    color: white;
+}
+.col-6{
+    text-align: center;
+}
+
+main {
+    min-height: 50vh;
+    background: url('https://images.unsplash.com/photo-1682778418768-16081e4470a1?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9uZG8lMjBkZSUyMHJlc3RhdXJhbnRlfGVufDB8fDB8fHww') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 600px;
+    height: 450px;
+    background: #222;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+form {
+    background: #222;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+label {
+    width: 100%;
+    font-size: 16px;
+    display: block;
+    justify-content: space-between;
+    align-items: center;
+}
+
+select,
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+input[type="time"] {
+    padding: 5px 10px;
+    font-family: monospace;
+    font-size: 14px;
+    width: 160px;
+    cursor: pointer;
+}
+
+button {
+    width: 150px;
+    background: #ccc;
+    color: #222;
+    border: none;
+    padding: 7px 0;
+    font-family: monospace;
+    font-size: 16px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #eee;
+}

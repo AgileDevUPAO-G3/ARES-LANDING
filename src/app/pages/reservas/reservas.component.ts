@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {CommonModule } from '@angular/common';
-import {MesaService} from '../../core/services/mesa.service';
-import {Mesa} from '../../shared/models/mesa.model';
-import {HttpClientModule} from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';  // <-- Importa Router y RouterModule
+import { MesaService } from '../../core/services/mesa.service';
+import { Mesa } from '../../shared/models/mesa.model';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-reservas',
   standalone: true,
-  imports: [FormsModule, CommonModule, HttpClientModule ],
+  imports: [FormsModule, CommonModule, HttpClientModule, RouterModule], // <-- Agrega RouterModule aquí
   templateUrl: './reservas.component.html',
   styleUrl: './reservas.component.css'
 })
@@ -18,7 +20,7 @@ export class ReservasComponent implements OnInit {
   hora: string = '';
   mesas: Mesa[] = [];
   // Opciones predeterminadas
-  opcionesPersonas: number[] = [ 2, 4, 5, 6, 7, 8,10,12];
+  opcionesPersonas: number[] = [2, 4, 5, 6, 7, 8, 10, 12];
   opcionesHoras: string[] = [
     '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
     '15:00', '15:30', '16:00', '16:30', '17:00', '17:30',
@@ -49,7 +51,8 @@ export class ReservasComponent implements OnInit {
     20: { top: '68.9%', left: '80.5%', width: '66px', height: '205px' }
   };
 
-  constructor(private mesaService: MesaService) {}
+  // constructor(private mesaService: MesaService) {}
+  constructor(private mesaService: MesaService, private router: Router) {}  // <-- Inyecta router
 
   ngOnInit(): void {
     this.mesaService.getMesas().subscribe((data) => {
@@ -62,11 +65,15 @@ export class ReservasComponent implements OnInit {
     return new Date().toISOString().split('T')[0];
   }
 
+  // empezarReserva(mesa: Mesa): void {
+  //   console.log('Iniciando reserva para la mesa:', mesa);
+  //   // Aquí puedes abrir un modal, redirigir o guardar la mesa seleccionada
+  // }
+
   empezarReserva(mesa: Mesa): void {
     console.log('Iniciando reserva para la mesa:', mesa);
-    // Aquí puedes abrir un modal, redirigir o guardar la mesa seleccionada
+    this.router.navigate(['/registro-reservas']);
   }
-
 
   todosLosFiltrosSeleccionados(): boolean {
     return this.personas !== null && this.fecha !== '' && this.hora !== '';
