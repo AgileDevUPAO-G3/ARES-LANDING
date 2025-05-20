@@ -2,9 +2,13 @@ import { Routes } from '@angular/router';
 import {HomeComponent} from './pages/home/home.component';
 import {CartaComponent} from './pages/home/carta/carta.component';
 import {ReservasComponent} from './pages/reservas/reservas.component';
+import { RegistroReservasComponent } from './pages/registro-reservas/registro-reservas.component';
+import { ListaReservasComponent } from './pages/lista-reservas/lista-reservas.component';
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'carta', component: CartaComponent},
   {path: 'reservas', component: ReservasComponent},
+  {path: 'registro-reservas', component: RegistroReservasComponent},
+  {path: 'lista-reservas', component: ListaReservasComponent}
 ];
