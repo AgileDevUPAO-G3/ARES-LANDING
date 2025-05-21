@@ -9,11 +9,7 @@
     </select>
 
     <!-- Fecha (input date) -->
-    <input type="date"
-           [(ngModel)]="fecha"
-           class="filtro-input"
-           [min]="fechaMinima"
-           placeholder="Fecha" />
+    <input type="date" [(ngModel)]="fecha" class="filtro-input" [min]="fechaMinima" placeholder="Fecha" />
 
     <!-- Hora (select limitado) -->
     <select [(ngModel)]="hora" class="filtro-input">
@@ -27,10 +23,7 @@
   <div *ngIf="todosLosFiltrosSeleccionados()" class="mapa-container">
     <img src="/mesas/mesas.png" alt="Mapa de mesas" />
 
-    <div
-      *ngFor="let mesa of mesas"
-      class="mesa-overlay"
-      [ngStyle]="{
+    <div *ngFor="let mesa of mesas" class="mesa-overlay" [ngStyle]="{
     top: posicionesMesa[mesa.numeroMesa].top,
     left: posicionesMesa[mesa.numeroMesa].left,
     width: posicionesMesa[mesa.numeroMesa].width,
@@ -40,16 +33,18 @@
       : mesa.estado === 'RESERVADO'
       ? 'rgba(255,0,0,0.3)'
       : 'rgba(255,255,0,0.3)'
-  }"
-
-    >
+  }">
       <div class="tooltip">
         <div><strong>Mesa {{ mesa.numeroMesa }}</strong></div>
-        <div>Zona: {{ mesa.zona }}</div>
+        <div>Zona: {{ mesa.zoneName }}</div>
         <div>Capacidad: {{ mesa.capacidad }}</div>
         <div>Estado: {{ mesa.estado }}</div>
 
-        <button class="btn-reservar" (click)="empezarReserva(mesa)">
+        <!-- Aqui agrego la funcion para q mande al path pagos(RegistroReserva) -->
+        <button class="btn-reservar" 
+        [routerLink]="['/registro-reservas', mesa.numeroMesa]"
+        [queryParams]="{fecha: fecha, hora: hora}"
+        >
           Empezar reserva
         </button>
 

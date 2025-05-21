@@ -3,5 +3,5 @@ export interface Mesa {
   numeroMesa: number;
   capacidad: number;
   estado: 'DISPONIBLE' | 'RESERVADO' | 'RESERVANDOSE';
-  zona: 'General' | 'Privada' | 'Ejecutiva';
+  zoneName: 'General' | 'Privada' | 'Ejecutiva';
 }

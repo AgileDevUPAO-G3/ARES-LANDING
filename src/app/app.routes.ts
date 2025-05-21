@@ -1,7 +1,14 @@
 import { Routes } from '@angular/router';
-import { MesasDisponiblesComponent } from './pages/mesas-disponibles/mesas-disponibles.component';
+import {HomeComponent} from './pages/home/home.component';
+import {CartaComponent} from './pages/home/carta/carta.component';
+import {ReservasComponent} from './pages/reservas/reservas.component';
+import { RegistroReservasComponent } from './pages/registro-reservas/registro-reservas.component';
+import { ListaReservasComponent } from './pages/lista-reservas/lista-reservas.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'mesas-disponibles', pathMatch: 'full' },
-  { path: 'mesas-disponibles', component: MesasDisponiblesComponent }
+  {path: '', component: HomeComponent},
+  {path: 'carta', component: CartaComponent},
+  {path: 'reservas', component: ReservasComponent},
+  { path: 'registro-reservas/:mesaId', component: RegistroReservasComponent },
+  {path: 'lista-reservas', component: ListaReservasComponent}
 ];

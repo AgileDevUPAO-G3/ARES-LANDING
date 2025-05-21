@@ -1,0 +1,96 @@
+.lista-reservas {
+    background: #423e3e;
+    color: white;
+    text-align: center;
+}
+
+.listas {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.reserva {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 15px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    max-width: 950px;
+}
+
+.info {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-grow: 1;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+.campo {
+    border-left: 1px solid #888;
+    padding: 0 12px;
+    white-space: nowrap;
+}
+
+.campo:first-child {
+    border-left: none;
+    padding-left: 0;
+}
+
+.campo label {
+    display: block;
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 3px;
+    font-family: 'Times New Roman', serif;
+}
+
+.campo .valor-peque {
+    font-size: 10px;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 3px;
+}
+
+.campo .valor-grande {
+    font-size: 14px;
+    font-weight: normal;
+    font-family: 'Times New Roman', serif;
+}
+
+.hora {
+    border-left: 1px solid #888;
+    font-weight: 600;
+    font-size: 15px;
+    padding-left: 12px;
+    white-space: nowrap;
+    font-family: 'Times New Roman', serif;
+}
+
+.estado {
+    margin-left: 20px;
+    padding: 6px 16px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-family: 'Arial Black', sans-serif;
+    font-size: 14px;
+    color: white;
+    cursor: default;
+    user-select: none;
+    min-width: 85px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.asistio {
+    background-color: #2ce83d;
+    color: #003700;
+}
+
+.falto {
+    background-color: #f00a0a;
+    color: #550000;
+}
