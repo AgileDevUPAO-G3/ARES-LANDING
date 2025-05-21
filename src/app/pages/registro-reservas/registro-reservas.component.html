@@ -10,27 +10,38 @@
 
 <main>
     <div class="container">
-        <form>
-            <label for="fecha">Fecha
-                <input type="date" id="fecha" name="fecha" required />
-            </label>
-            <label for="hora">Hora
-                <input type="time" id="hora" name="hora" required />
-            </label>
-            <label for="nombre">Nombre
-                <input type="text" id="nombre" name="nombre" required />
-            </label>
-            <label for="apellido">Apellido
-                <input type="text" id="apellido" name="apellido" required />
-            </label>
-            <label for="telefono">Teléfono
-                <input type="tel" id="telefono" name="telefono" pattern="[0-9]{7,15}" placeholder="Solo números"
-                    required />
-            </label>
-            <label for="email">Email
-                <input type="email" id="email" name="email" required />
-            </label>
-            <button type="submit">Ir a pagar</button>
-        </form>
+      <form (ngSubmit)="onSubmit()" #reservationForm="ngForm">
+        <label for="dni">DNI
+          <input type="tel" id="dni" name="dni" [(ngModel)]="dniCliente" required />
+        </label>
+
+        <label for="fecha">Fecha
+          <input type="date" id="fecha" name="fecha" [value]="fecha" readonly />
+        </label>
+
+        <label for="hora">Hora
+          <input type="time" id="hora" name="hora" [value]="hora" readonly />
+        </label>
+
+        <label for="nombre">Nombre
+          <input type="text" id="nombre" name="nombre" [(ngModel)]="nombreCliente" required />
+        </label>
+
+        <label for="apellido">Apellido
+          <input type="text" id="apellido" name="apellido" [(ngModel)]="apellidoCliente" required />
+        </label>
+
+        <label for="telefono">Teléfono
+          <input type="tel" id="telefono" name="telefono" pattern="[0-9]{7,15}" placeholder="Solo números"
+                 [(ngModel)]="telefonoCliente" required />
+        </label>
+
+        <label for="email">Email
+          <input type="email" id="email" name="email" [(ngModel)]="emailCliente" required />
+        </label>
+
+        <button type="submit" [disabled]="!reservationForm.form.valid">Ir a pagar</button>
+      </form>
+
     </div>
 </main>
