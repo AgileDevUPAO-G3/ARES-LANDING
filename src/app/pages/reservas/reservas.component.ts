@@ -1,16 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';  // <-- Importa Router y RouterModule
-import { MesaService } from '../../core/services/mesa.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Router, RouterModule } from '@angular/router'; // ✅ Soporte routerLink
 import { Mesa } from '../../shared/models/mesa.model';
-import { HttpClientModule } from '@angular/common/http';
-
 
 @Component({
   selector: 'app-reservas',
   standalone: true,
-  imports: [FormsModule, CommonModule, HttpClientModule, RouterModule], // <-- Agrega RouterModule aquí
+  imports: [FormsModule, CommonModule, HttpClientModule, RouterModule],
   templateUrl: './reservas.component.html',
   styleUrl: './reservas.component.css'
 })
@@ -19,7 +17,7 @@ export class ReservasComponent implements OnInit {
   fecha: string = '';
   hora: string = '';
   mesas: Mesa[] = [];
-  // Opciones predeterminadas
+
   opcionesPersonas: number[] = [2, 4, 5, 6, 7, 8, 10, 12];
   opcionesHoras: string[] = [
     '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
@@ -51,31 +49,41 @@ export class ReservasComponent implements OnInit {
     20: { top: '68.9%', left: '80.5%', width: '66px', height: '205px' }
   };
 
-  // constructor(private mesaService: MesaService) {}
-  constructor(private mesaService: MesaService, private router: Router) {}  // <-- Inyecta router
+  constructor(private http: HttpClient, private router: Router) {}
 
-  ngOnInit(): void {
-    this.mesaService.getMesas().subscribe((data) => {
-      this.mesas = data;
-    });
-  }
+  ngOnInit(): void {}
 
-  // Para deshabilitar fechas pasadas
   get fechaMinima(): string {
     return new Date().toISOString().split('T')[0];
   }
 
-  // empezarReserva(mesa: Mesa): void {
-  //   console.log('Iniciando reserva para la mesa:', mesa);
-  //   // Aquí puedes abrir un modal, redirigir o guardar la mesa seleccionada
-  // }
-
-  empezarReserva(mesa: Mesa): void {
-    console.log('Iniciando reserva para la mesa:', mesa);
-    this.router.navigate(['/registro-reservas']);
-  }
-
   todosLosFiltrosSeleccionados(): boolean {
     return this.personas !== null && this.fecha !== '' && this.hora !== '';
+  }
+
+  cargarMesas(): void {
+    const url = 'http://localhost:8080/api/v1/api/disponibilidad';
+    const payload = {
+      fecha: this.fecha,
+      hora: this.hora
+    };
+
+    this.http.post<Mesa[]>(url, payload).subscribe({
+      next: (data) => {
+        this.mesas = data;
+      },
+      error: (err) => {
+        console.error('Error al cargar mesas:', err);
+      }
+    });
+  }
+
+  empezarReserva(mesa: Mesa): void {
+    if (mesa.estado === 'DISPONIBLE') {
+      console.log('✔️ Redirigiendo a reserva de mesa:', mesa.numeroMesa);
+      this.router.navigate(['/registro-reservas', mesa.numeroMesa]);
+    } else {
+      console.warn('⚠️ Mesa no disponible:', mesa);
+    }
   }
 }
