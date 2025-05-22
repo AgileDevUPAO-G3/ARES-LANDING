@@ -32,8 +32,8 @@
             type="date"
             id="fecha"
             name="fecha"
-            [value]="fecha"
-            readonly
+            [(ngModel)]="fecha"
+            disabled
             class="readonly-input"
           />
         </label>
@@ -43,11 +43,12 @@
             type="time"
             id="hora"
             name="hora"
-            [value]="hora"
-            readonly
+            [(ngModel)]="hora"
+            disabled
             class="readonly-input"
           />
         </label>
+
 
         <label for="nombre">Nombre
           <input

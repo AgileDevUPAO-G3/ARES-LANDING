@@ -54,9 +54,6 @@ export class ReservasComponent implements OnInit {
   constructor(private http: HttpClient ,private mesaService: MesaService, private router: Router) {}  // <-- Inyecta router
 
   ngOnInit(): void {
-    this.mesaService.getMesas().subscribe((data) => {
-      this.mesas = data;
-    });
   }
 
   // Para deshabilitar fechas pasadas
@@ -89,16 +86,14 @@ export class ReservasComponent implements OnInit {
     if (mesa.estado === 'DISPONIBLE') {
       console.log('✔️ Redirigiendo a reserva de mesa:', mesa.numeroMesa);
 
-      const horaConSegundos = this.hora ? this.hora + ':00' : '';
-
       this.router.navigate(
         ['/registro-reservas', mesa.numeroMesa],
-        { queryParams: { fecha: this.fecha, hora: horaConSegundos } }
+        { queryParams: { fecha: this.fecha, hora: this.hora } }  // ✅ usamos hora directamente
       );
     } else {
       console.warn('⚠️ Mesa no disponible:', mesa);
     }
   }
 
-
 }
+
