@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ReservationService} from '../../core/services/reservation.service';
-import { Reservation} from '../../shared/models/reservation.model';
-import {FormsModule} from '@angular/forms';
+import { ReservationService } from '../../core/services/reservation.service';
+import { ClientService } from '../../core/services/client.service';
+import { Reservation } from '../../shared/models/reservation.model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-registro-reservas',
@@ -26,7 +27,11 @@ export class RegistroReservasComponent implements OnInit {
   telefonoCliente: string = '';
   emailCliente: string = '';
 
-  constructor(private route: ActivatedRoute, private reservationService: ReservationService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private reservationService: ReservationService,
+    private clientService: ClientService   // Inyecta ClientService
+  ) {}
 
   ngOnInit(): void {
     this.mesaId = Number(this.route.snapshot.paramMap.get('mesaId'));
@@ -34,6 +39,34 @@ export class RegistroReservasComponent implements OnInit {
       this.fecha = params['fecha'] || '';
       this.hora = params['hora'] || '';
     });
+  }
+
+  // Se llama cuando el usuario termina de ingresar el DNI y pierde el foco
+  onDniBlur(): void {
+    if (!this.dniCliente || this.dniCliente.trim() === '') {
+      this.clearClientFields();
+      return;
+    }
+    this.clientService.getClientByDni(this.dniCliente).subscribe({
+      next: client => {
+        // Si existe el cliente, autocompleta los campos
+        this.nombreCliente = client.nombre;
+        this.apellidoCliente = client.apellido;
+        this.telefonoCliente = client.telefono;
+        this.emailCliente = client.email;
+      },
+      error: () => {
+        // Si no existe, limpia los campos para ingreso nuevo cliente
+        this.clearClientFields();
+      }
+    });
+  }
+
+  clearClientFields(): void {
+    this.nombreCliente = '';
+    this.apellidoCliente = '';
+    this.telefonoCliente = '';
+    this.emailCliente = '';
   }
 
   onSubmit(): void {
@@ -54,7 +87,7 @@ export class RegistroReservasComponent implements OnInit {
     };
 
     this.reservationService.createReservation(reservation).subscribe({
-      next: (res) => {
+      next: () => {
         alert('Reserva creada correctamente');
         // Aquí puedes limpiar formulario o navegar a otra página
       },

@@ -71,3 +71,15 @@ button {
 button:hover {
     background: #eee;
 }
+
+/* Inputs readonly con fondo gris claro */
+input.readonly-input {
+  background-color: #d3d3d3;
+  color: #555;
+  cursor: not-allowed;
+}
+
+/* Inputs inválidos */
+input.invalid {
+  border: 2px solid red;
+}

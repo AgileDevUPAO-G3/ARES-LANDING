@@ -65,14 +65,16 @@ export class ReservasComponent implements OnInit {
     return new Date().toISOString().split('T')[0];
   }
 
-  // empezarReserva(mesa: Mesa): void {
-  //   console.log('Iniciando reserva para la mesa:', mesa);
-  //   // Aquí puedes abrir un modal, redirigir o guardar la mesa seleccionada
-  // }
-
   empezarReserva(mesa: Mesa): void {
     console.log('Iniciando reserva para la mesa:', mesa);
-    this.router.navigate(['/registro-reservas']);
+
+    // Añade ':00' a la hora para formato HH:mm:ss
+    const horaConSegundos = this.hora ? this.hora + ':00' : '';
+
+    this.router.navigate(
+      ['/registro-reservas', mesa.numeroMesa],
+      { queryParams: { fecha: this.fecha, hora: horaConSegundos } }
+    );
   }
 
   todosLosFiltrosSeleccionados(): boolean {

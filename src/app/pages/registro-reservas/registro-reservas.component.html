@@ -10,38 +10,104 @@
 
 <main>
     <div class="container">
-      <form (ngSubmit)="onSubmit()" #reservationForm="ngForm">
+      <form (ngSubmit)="onSubmit()" #reservationForm="ngForm" novalidate>
         <label for="dni">DNI
-          <input type="tel" id="dni" name="dni" [(ngModel)]="dniCliente" required />
+          <input
+            type="text"
+            id="dni"
+            name="dni"
+            required
+            maxlength="8"
+            pattern="^[0-9]{8}$"
+            [(ngModel)]="dniCliente"
+            #dniCtrl="ngModel"
+            [class.invalid]="dniCtrl.invalid && dniCtrl.touched"
+            (blur)="onDniBlur()"
+            placeholder="Solo 8 números"
+          />
         </label>
 
         <label for="fecha">Fecha
-          <input type="date" id="fecha" name="fecha" [value]="fecha" readonly />
+          <input
+            type="date"
+            id="fecha"
+            name="fecha"
+            [value]="fecha"
+            readonly
+            class="readonly-input"
+          />
         </label>
 
         <label for="hora">Hora
-          <input type="time" id="hora" name="hora" [value]="hora" readonly />
+          <input
+            type="time"
+            id="hora"
+            name="hora"
+            [value]="hora"
+            readonly
+            class="readonly-input"
+          />
         </label>
 
         <label for="nombre">Nombre
-          <input type="text" id="nombre" name="nombre" [(ngModel)]="nombreCliente" required />
+          <input
+            type="text"
+            id="nombre"
+            name="nombre"
+            required
+            pattern="^[a-zA-ZÀ-ÿ\s]+$"
+            [(ngModel)]="nombreCliente"
+            #nombreCtrl="ngModel"
+            [class.invalid]="nombreCtrl.invalid && nombreCtrl.touched"
+            placeholder="Solo letras"
+          />
         </label>
 
         <label for="apellido">Apellido
-          <input type="text" id="apellido" name="apellido" [(ngModel)]="apellidoCliente" required />
+          <input
+            type="text"
+            id="apellido"
+            name="apellido"
+            required
+            pattern="^[a-zA-ZÀ-ÿ\s]+$"
+            [(ngModel)]="apellidoCliente"
+            #apellidoCtrl="ngModel"
+            [class.invalid]="apellidoCtrl.invalid && apellidoCtrl.touched"
+            placeholder="Solo letras"
+          />
         </label>
 
         <label for="telefono">Teléfono
-          <input type="tel" id="telefono" name="telefono" pattern="[0-9]{7,15}" placeholder="Solo números"
-                 [(ngModel)]="telefonoCliente" required />
+          <input
+            type="tel"
+            id="telefono"
+            name="telefono"
+            required
+            maxlength="9"
+            pattern="^[0-9]{7,9}$"
+            placeholder="Solo números"
+            [(ngModel)]="telefonoCliente"
+            #telefonoCtrl="ngModel"
+            [class.invalid]="telefonoCtrl.invalid && telefonoCtrl.touched"
+          />
         </label>
 
         <label for="email">Email
-          <input type="email" id="email" name="email" [(ngModel)]="emailCliente" required />
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            [(ngModel)]="emailCliente"
+            #emailCtrl="ngModel"
+            [class.invalid]="emailCtrl.invalid && emailCtrl.touched"
+            placeholder="email@ejemplo.com"
+          />
         </label>
 
-        <button type="submit" [disabled]="!reservationForm.form.valid">Ir a pagar</button>
+        <button type="submit" [disabled]="reservationForm.invalid">Ir a pagar</button>
       </form>
+
 
     </div>
 </main>
