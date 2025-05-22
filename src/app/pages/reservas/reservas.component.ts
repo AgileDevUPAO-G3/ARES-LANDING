@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';  // <-- Importa Router y RouterModule
-import { MesaService } from '../../core/services/mesa.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Router, RouterModule } from '@angular/router'; // ✅ Soporte routerLink
 import { Mesa } from '../../shared/models/mesa.model';
-import { HttpClientModule } from '@angular/common/http';
-
+import { MesaService } from '../../core/services/mesa.service';
 
 @Component({
   selector: 'app-reservas',
   standalone: true,
-  imports: [FormsModule, CommonModule, HttpClientModule, RouterModule], // <-- Agrega RouterModule aquí
+  imports: [FormsModule, CommonModule, HttpClientModule, RouterModule],
   templateUrl: './reservas.component.html',
   styleUrl: './reservas.component.css'
 })
@@ -52,7 +51,7 @@ export class ReservasComponent implements OnInit {
   };
 
   // constructor(private mesaService: MesaService) {}
-  constructor(private mesaService: MesaService, private router: Router) {}  // <-- Inyecta router
+  constructor(private http: HttpClient ,private mesaService: MesaService, private router: Router) {}  // <-- Inyecta router
 
   ngOnInit(): void {
     this.mesaService.getMesas().subscribe((data) => {
@@ -65,19 +64,41 @@ export class ReservasComponent implements OnInit {
     return new Date().toISOString().split('T')[0];
   }
 
-  empezarReserva(mesa: Mesa): void {
-    console.log('Iniciando reserva para la mesa:', mesa);
-
-    // Añade ':00' a la hora para formato HH:mm:ss
-    const horaConSegundos = this.hora ? this.hora + ':00' : '';
-
-    this.router.navigate(
-      ['/registro-reservas', mesa.numeroMesa],
-      { queryParams: { fecha: this.fecha, hora: horaConSegundos } }
-    );
-  }
-
   todosLosFiltrosSeleccionados(): boolean {
     return this.personas !== null && this.fecha !== '' && this.hora !== '';
   }
+
+  cargarMesas(): void {
+    const url = 'http://localhost:8080/api/v1/api/disponibilidad';
+    const payload = {
+      fecha: this.fecha,
+      hora: this.hora
+    };
+
+    this.http.post<Mesa[]>(url, payload).subscribe({
+      next: (data) => {
+        this.mesas = data;
+      },
+      error: (err) => {
+        console.error('Error al cargar mesas:', err);
+      }
+    });
+  }
+
+  empezarReserva(mesa: Mesa): void {
+    if (mesa.estado === 'DISPONIBLE') {
+      console.log('✔️ Redirigiendo a reserva de mesa:', mesa.numeroMesa);
+
+      const horaConSegundos = this.hora ? this.hora + ':00' : '';
+
+      this.router.navigate(
+        ['/registro-reservas', mesa.numeroMesa],
+        { queryParams: { fecha: this.fecha, hora: horaConSegundos } }
+      );
+    } else {
+      console.warn('⚠️ Mesa no disponible:', mesa);
+    }
+  }
+
+
 }
