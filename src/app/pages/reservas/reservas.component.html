@@ -1,55 +1,75 @@
 <section class="reserva-container">
   <!-- Filtros -->
-  <div class="filtros ">
-
-    <!-- Personas (select) -->
+  <div class="filtros">
+    <!-- Personas -->
     <select [(ngModel)]="personas" class="filtro-input">
       <option value="" disabled selected>Personas</option>
-      <option *ngFor="let p of opcionesPersonas" [value]="p">{{ p }} persona{{ p > 1 ? 's' : '' }}</option>
+      <option *ngFor="let p of opcionesPersonas" [value]="p">
+        {{ p }} persona{{ p > 1 ? 's' : '' }}
+      </option>
     </select>
 
-    <!-- Fecha (input date) -->
-    <input type="date" [(ngModel)]="fecha" class="filtro-input" [min]="fechaMinima" placeholder="Fecha" />
+    <!-- Fecha -->
+    <input
+      type="date"
+      [(ngModel)]="fecha"
+      class="filtro-input"
+      [min]="fechaMinima"
+      placeholder="Fecha"
+    />
 
-    <!-- Hora (select limitado) -->
+    <!-- Hora -->
     <select [(ngModel)]="hora" class="filtro-input">
       <option value="" disabled selected>Hora</option>
       <option *ngFor="let h of opcionesHoras" [value]="h">{{ h }}</option>
     </select>
-
   </div>
 
-  <!-- Mostrar el mapa si los filtros están completos -->
-  <div *ngIf="todosLosFiltrosSeleccionados()" class="mapa-container">
+  <!-- Botón para cargar disponibilidad -->
+  <div style="text-align: center; margin-top: 1rem;">
+    <button
+      class="btn-reservar"
+      (click)="cargarMesas()"
+      [disabled]="!todosLosFiltrosSeleccionados()"
+    >
+      Buscar disponibilidad
+    </button>
+  </div>
+
+  <!-- Mapa de mesas -->
+  <div *ngIf="mesas.length > 0" class="mapa-container">
     <img src="/mesas/mesas.png" alt="Mapa de mesas" />
 
-    <div *ngFor="let mesa of mesas" class="mesa-overlay" [ngStyle]="{
-    top: posicionesMesa[mesa.numeroMesa].top,
-    left: posicionesMesa[mesa.numeroMesa].left,
-    width: posicionesMesa[mesa.numeroMesa].width,
-    height: posicionesMesa[mesa.numeroMesa].height,
-    backgroundColor: mesa.estado === 'DISPONIBLE'
-      ? 'rgba(0,255,0,0.2)'
-      : mesa.estado === 'RESERVADO'
-      ? 'rgba(255,0,0,0.3)'
-      : 'rgba(255,255,0,0.3)'
-  }">
+    <div
+      *ngFor="let mesa of mesas"
+      class="mesa-overlay"
+      [ngStyle]="{
+        top: posicionesMesa[mesa.numeroMesa]?.top,
+        left: posicionesMesa[mesa.numeroMesa]?.left,
+        width: posicionesMesa[mesa.numeroMesa]?.width,
+        height: posicionesMesa[mesa.numeroMesa]?.height,
+        backgroundColor: mesa.estado === 'DISPONIBLE'
+          ? 'rgba(0,255,0,0.2)'
+          : mesa.estado === 'RESERVADO'
+          ? 'rgba(255,0,0,0.3)'
+          : 'rgba(255,255,0,0.3)'
+      }"
+    >
       <div class="tooltip">
         <div><strong>Mesa {{ mesa.numeroMesa }}</strong></div>
-        <div>Zona: {{ mesa.zoneName }}</div>
+        <div>Zona: {{ mesa.zoneName }}</div> <!-- ✅ CORREGIDO -->
         <div>Capacidad: {{ mesa.capacidad }}</div>
         <div>Estado: {{ mesa.estado }}</div>
 
-        <!-- Aqui agrego la funcion para q mande al path pagos(RegistroReserva) -->
-        <button class="btn-reservar" 
-        [routerLink]="['/registro-reservas', mesa.numeroMesa]"
-        [queryParams]="{fecha: fecha, hora: hora}"
+        <!-- Si está disponible: permitir ir a /registro-reservas -->
+        <button
+          class="btn-reservar"
+          *ngIf="mesa.estado === 'DISPONIBLE'"
+          [routerLink]="['/registro-reservas', mesa.numeroMesa]"
         >
           Empezar reserva
         </button>
-
       </div>
     </div>
-
   </div>
 </section>
