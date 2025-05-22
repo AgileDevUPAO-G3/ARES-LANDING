@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router'; // ✅ Soporte routerLink
 import { Mesa } from '../../shared/models/mesa.model';
+import { MesaService } from '../../core/services/mesa.service';
 
 @Component({
   selector: 'app-reservas',
@@ -17,7 +18,7 @@ export class ReservasComponent implements OnInit {
   fecha: string = '';
   hora: string = '';
   mesas: Mesa[] = [];
-
+  // Opciones predeterminadas
   opcionesPersonas: number[] = [2, 4, 5, 6, 7, 8, 10, 12];
   opcionesHoras: string[] = [
     '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
@@ -49,10 +50,13 @@ export class ReservasComponent implements OnInit {
     20: { top: '68.9%', left: '80.5%', width: '66px', height: '205px' }
   };
 
-  constructor(private http: HttpClient, private router: Router) {}
+  // constructor(private mesaService: MesaService) {}
+  constructor(private http: HttpClient ,private mesaService: MesaService, private router: Router) {}  // <-- Inyecta router
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
+  // Para deshabilitar fechas pasadas
   get fechaMinima(): string {
     return new Date().toISOString().split('T')[0];
   }
@@ -81,9 +85,15 @@ export class ReservasComponent implements OnInit {
   empezarReserva(mesa: Mesa): void {
     if (mesa.estado === 'DISPONIBLE') {
       console.log('✔️ Redirigiendo a reserva de mesa:', mesa.numeroMesa);
-      this.router.navigate(['/registro-reservas', mesa.numeroMesa]);
+
+      this.router.navigate(
+        ['/registro-reservas', mesa.numeroMesa],
+        { queryParams: { fecha: this.fecha, hora: this.hora } }  // ✅ usamos hora directamente
+      );
     } else {
       console.warn('⚠️ Mesa no disponible:', mesa);
     }
   }
+
 }
+

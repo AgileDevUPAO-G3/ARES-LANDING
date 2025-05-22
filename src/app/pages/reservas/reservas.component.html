@@ -44,10 +44,10 @@
       *ngFor="let mesa of mesas"
       class="mesa-overlay"
       [ngStyle]="{
-        top: posicionesMesa[mesa.numeroMesa]?.top,
-        left: posicionesMesa[mesa.numeroMesa]?.left,
-        width: posicionesMesa[mesa.numeroMesa]?.width,
-        height: posicionesMesa[mesa.numeroMesa]?.height,
+        top: posicionesMesa[mesa.numeroMesa].top,
+        left: posicionesMesa[mesa.numeroMesa].left,
+        width: posicionesMesa[mesa.numeroMesa].width,
+        height: posicionesMesa[mesa.numeroMesa].height,
         backgroundColor: mesa.estado === 'DISPONIBLE'
           ? 'rgba(0,255,0,0.2)'
           : mesa.estado === 'RESERVADO'
@@ -65,10 +65,11 @@
         <button
           class="btn-reservar"
           *ngIf="mesa.estado === 'DISPONIBLE'"
-          [routerLink]="['/registro-reservas', mesa.numeroMesa]"
+          (click)="empezarReserva(mesa)"
         >
           Empezar reserva
         </button>
+
       </div>
     </div>
   </div>
