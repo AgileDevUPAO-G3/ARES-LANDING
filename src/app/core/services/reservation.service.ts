@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {ReservationList} from '../../shared/models/reservation-list.model';
 import { Reservation } from '../../shared/models/reservation.model';
 import { environment } from '../../../environment/environment';
 
@@ -16,7 +17,8 @@ export class ReservationService {
     return this.http.post<Reservation>(`${this.baseUrl}/reservations`, reservation);
   }
 
-  
-
-  // Otros métodos si deseas: get, update, delete...
+  // 🆕 Obtener lista de reservas para visualización
+  getReservationList(): Observable<ReservationList[]> {
+    return this.http.get<ReservationList[]>(`${this.baseUrl}/reservations/vista`);
+  }
 }
