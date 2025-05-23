@@ -28,26 +28,26 @@ export class ReservasComponent implements OnInit {
   ];
 
   posicionesMesa: { [key: number]: { top: string, left: string, width: string, height: string } } = {
-    1: { top: '28%', left: '14.2%', width: '90px', height: '56px' },
-    2: { top: '39.3%', left: '14.1%', width: '90px', height: '56px' },
-    3: { top: '66.5%', left: '13.8%', width: '90px', height: '56px' },
-    4: { top: '81%', left: '13.8%', width: '90px', height: '56px' },
-    5: { top: '48%', left: '30.9%', width: '83px', height: '56px' },
-    6: { top: '45.65%', left: '21.65%', width: '42px', height: '40px' },
-    7: { top: '45.65%', left: '26.8%', width: '42px', height: '40px' },
-    8: { top: '51%', left: '16.2%', width: '42px', height: '43px' },
-    9: { top: '61.8%', left: '32.15%', width: '42px', height: '42px' },
-    10: { top: '67%', left: '21.2%', width: '42px', height: '41px' },
-    11: { top: '74.9%', left: '21.1%', width: '42px', height: '40px' },
-    12: { top: '82.9%', left: '21.1%', width: '42px', height: '40px' },
-    13: { top: '28%', left: '22.9%', width: '59px', height: '105px' },
-    14: { top: '28%', left: '30.3%', width: '58px', height: '105px' },
-    15: { top: '79%', left: '35.9%', width: '165px', height: '120px' },
-    16: { top: '79%', left: '45.4%', width: '165px', height: '120px' },
-    17: { top: '79%', left: '54.9%', width: '160px', height: '120px' },
-    18: { top: '79.5%', left: '68.5%', width: '66px', height: '110px' },
-    19: { top: '72.5%', left: '74.5%', width: '66px', height: '175px' },
-    20: { top: '68.9%', left: '80.5%', width: '66px', height: '205px' }
+    1: { top: '11%', left: '2.5%', width: '6%', height: '7%' },
+    2: { top: '25%', left: '2.5%', width: '6%', height: '7%' },
+    3: { top: '57.5%', left: '2.3%', width: '6%', height: '7%' },
+    4: { top: '75%', left: '2.1%', width: '6%', height: '7%' },
+    5: { top: '35.5%', left: '24.6%', width: '6%', height: '7%' },
+    6: { top: '32%', left: '12.65%', width: '2.8%', height: '5%' },
+    7: { top: '32%', left: '19.4%', width: '2.8%', height: '5%' },
+    8: { top: '39%', left: '5.2%', width: '2.8%', height: '5%' },
+    9: { top: '51.8%', left: '26.5%', width: '2.8%', height: '5%' },
+    10: { top: '67%', left: '11.9%', width: '2.8%', height: '5%' },
+    11: { top: '58%', left: '11.9%', width: '2.8%', height: '5%' },
+    12: { top: '77%', left: '11.9%', width: '2.8%', height: '5%' },
+    13: { top: '11%', left: '14.1%',width: '4%', height: '13%' },
+    14: { top: '11.3%', left: '24%', width: '4%', height: '13%' },
+    15: { top: '73%', left: '31.9%', width: '11%', height: '16%' },
+    16: { top: '73%', left: '44%', width: '11%', height: '16%' },
+    17: { top: '73%', left: '56.5%', width: '11%', height: '16%' },
+    18: { top: '73.5%', left: '75.2%', width: '3%', height: '14.5%' },
+    19: { top: '65%', left: '83%', width: '3%', height: '22.5%' },
+    20: { top: '61%', left: '91.1%', width: '3%', height: '26.5%' }
   };
 
   // constructor(private mesaService: MesaService) {}

@@ -43,9 +43,7 @@
 /*Mapas*/
 
 .mapa-container {
-  width: 75vw;
-  height: 75vh;
-  overflow: hidden; /* Opcional: evita scroll si la imagen se pasa */
+  position: relative;
 }
 
 .mapa-container img {
@@ -62,6 +60,12 @@
   transition: background-color 0.3s ease;
   cursor: pointer;
   border-radius: 4px; /* opcional para bordes suaves */
+}
+
+.mesa-disponible {
+  border: 2px solid #00cc00; /* Verde brillante */
+  box-shadow: 0 0 10px 4px rgba(0, 255, 0, 0.5); /* Efecto glow */
+  border-radius: 5px;
 }
 
 .mesa-overlay:hover {

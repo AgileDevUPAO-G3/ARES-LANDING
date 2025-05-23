@@ -41,20 +41,21 @@
     <img src="/mesas/mesas.png" alt="Mapa de mesas" />
 
     <div
-      *ngFor="let mesa of mesas"
-      class="mesa-overlay"
-      [ngStyle]="{
-        top: posicionesMesa[mesa.numeroMesa].top,
-        left: posicionesMesa[mesa.numeroMesa].left,
-        width: posicionesMesa[mesa.numeroMesa].width,
-        height: posicionesMesa[mesa.numeroMesa].height,
-        backgroundColor: mesa.estado === 'DISPONIBLE'
-          ? 'rgba(0,255,0,0.2)'
-          : mesa.estado === 'RESERVADO'
-          ? 'rgba(255,0,0,0.3)'
-          : 'rgba(255,255,0,0.3)'
-      }"
-    >
+  *ngFor="let mesa of mesas"
+  class="mesa-overlay"
+  [ngClass]="{ 'mesa-disponible': mesa.estado === 'DISPONIBLE' }"
+  [ngStyle]="{
+    top: posicionesMesa[mesa.numeroMesa].top,
+    left: posicionesMesa[mesa.numeroMesa].left,
+    width: posicionesMesa[mesa.numeroMesa].width,
+    height: posicionesMesa[mesa.numeroMesa].height,
+    backgroundColor: mesa.estado === 'DISPONIBLE'
+      ? 'rgba(0,255,0,0.2)'
+      : mesa.estado === 'RESERVADO'
+      ? 'rgba(255,0,0,0.3)'
+      : 'rgba(255,255,0,0.3)'
+  }"
+>
       <div class="tooltip">
         <div><strong>Mesa {{ mesa.numeroMesa }}</strong></div>
         <div>Zona: {{ mesa.zoneName }}</div> <!-- ✅ CORREGIDO -->
