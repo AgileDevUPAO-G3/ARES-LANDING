@@ -2,35 +2,43 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ReservationService } from '../../core/services/reservation.service';
 import { ClientService } from '../../core/services/client.service';
+import { PaymentService } from '../../core/services/payment.service';
 import { Reservation } from '../../shared/models/reservation.model';
+import { Payment } from '../../shared/models/payment.model';
 import { FormsModule } from '@angular/forms';
+import {NgClass} from '@angular/common';
+
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-registro-reservas',
   standalone: true,
   templateUrl: './registro-reservas.component.html',
   imports: [
+    CommonModule, // ✅ Asegura el uso de *ngIf, *ngFor, etc.
     FormsModule
   ],
   styleUrls: ['./registro-reservas.component.css']
 })
-export class RegistroReservasComponent implements OnInit {
 
+export class RegistroReservasComponent implements OnInit {
   mesaId: number | null = null;
   fecha: string = '';
   hora: string = '';
 
-  // Datos cliente
   dniCliente: string = '';
   nombreCliente: string = '';
   apellidoCliente: string = '';
   telefonoCliente: string = '';
   emailCliente: string = '';
 
+  etapaActual: 'registro' | 'pago' = 'registro';
+
   constructor(
     private route: ActivatedRoute,
     private reservationService: ReservationService,
-    private clientService: ClientService   // Inyecta ClientService
+    private clientService: ClientService,
+    private paymentService: PaymentService
   ) {}
 
   ngOnInit(): void {
@@ -41,7 +49,6 @@ export class RegistroReservasComponent implements OnInit {
     });
   }
 
-  // Se llama cuando el usuario termina de ingresar el DNI y pierde el foco
   onDniBlur(): void {
     if (!this.dniCliente || this.dniCliente.trim() === '') {
       this.clearClientFields();
@@ -49,14 +56,12 @@ export class RegistroReservasComponent implements OnInit {
     }
     this.clientService.getClientByDni(this.dniCliente).subscribe({
       next: client => {
-        // Si existe el cliente, autocompleta los campos
         this.nombreCliente = client.nombre;
         this.apellidoCliente = client.apellido;
         this.telefonoCliente = client.telefono;
         this.emailCliente = client.email;
       },
       error: () => {
-        // Si no existe, limpia los campos para ingreso nuevo cliente
         this.clearClientFields();
       }
     });
@@ -75,24 +80,28 @@ export class RegistroReservasComponent implements OnInit {
       return;
     }
 
-    const reservation: Reservation = {
-      mesaId: this.mesaId,
-      fechaReservada: this.fecha,
-      horaInicio: this.hora + ':00',  // Agrega segundos
-      nombreCliente: this.nombreCliente,
-      apellidoCliente: this.apellidoCliente,
-      telefonoCliente: this.telefonoCliente,
-      emailCliente: this.emailCliente,
-      dniCliente: this.dniCliente
+    this.etapaActual = 'pago';
+  }
+
+  iniciarPago(): void {
+    const paymentRequest: Payment = {
+      title: 'Reserva de Mesa',
+      description: `Reserva para ${this.nombreCliente} en mesa ${this.mesaId}`,
+      quantity: 1,
+      unitPrice: 50.00,
+      email: this.emailCliente
     };
 
-    this.reservationService.createReservation(reservation).subscribe({
-      next: () => {
-        alert('Reserva creada correctamente');
-        // Aquí puedes limpiar formulario o navegar a otra página
+    this.paymentService.crearPreferencia(paymentRequest).subscribe({
+      next: (response) => {
+        if (response.initPoint) {
+          window.location.href = response.initPoint;
+        } else {
+          alert('No se pudo obtener la URL de pago.');
+        }
       },
       error: (err) => {
-        alert('Error al crear la reserva: ' + (err.error?.message || err.message));
+        alert('Error al procesar el pago: ' + (err.error?.message || err.message));
       }
     });
   }

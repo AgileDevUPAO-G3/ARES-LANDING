@@ -83,3 +83,14 @@ input.readonly-input {
 input.invalid {
   border: 2px solid red;
 }
+
+/*etapas de los pagos*/
+
+.etapa-activa {
+  border-bottom: 3px solid #fff;
+  padding-bottom: 5px;
+  font-weight: bold;
+}
+.etapa-inactiva {
+  opacity: 0.6;
+}
