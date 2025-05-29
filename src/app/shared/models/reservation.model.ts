@@ -1,11 +1,12 @@
 export interface Reservation {
   id?: number;
-  fechaReservada: string;    // Formato 'yyyy-MM-dd'
-  horaInicio: string;        // Formato 'HH:mm:ss'
+  fechaReservada: string;
+  horaInicio: string;
   mesaId: number;
   nombreCliente: string;
   apellidoCliente: string;
-  telefonoCliente: string;
   emailCliente: string;
+  telefonoCliente: string;
   dniCliente: string;
+  stateReservation?: string; // "EN_ESPERA" por defecto
 }
