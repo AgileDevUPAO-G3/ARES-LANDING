@@ -5,6 +5,7 @@ import { ReservationService } from '../../core/services/reservation.service';
 import { Reservation } from '../../shared/models/reservation.model';
 import { Payment } from '../../shared/models/payment.model';
 import { FormsModule } from '@angular/forms';
+import { ClientService } from '../../core/services/client.service';
 import { CommonModule } from '@angular/common';
 
 declare var MercadoPago: any;
@@ -35,7 +36,8 @@ export class RegistroReservasComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private paymentService: PaymentService,
-    private reservationService: ReservationService
+    private reservationService: ReservationService,
+    private clientService: ClientService
   ) {}
 
   ngOnInit(): void {
@@ -106,6 +108,27 @@ export class RegistroReservasComponent implements OnInit {
     });
   }
 
+  buscarCliente(): void {
+    if (!this.dniCliente || this.dniCliente.length !== 8) return;
 
+    this.clientService.getClientByDni(this.dniCliente).subscribe({
+      next: (cliente) => {
+        if (cliente) {
+          this.nombreCliente = cliente.nombre;
+          this.apellidoCliente = cliente.apellido;
+          this.emailCliente = cliente.email;
+          this.telefonoCliente = cliente.telefono;
+        }
+      },
+      error: (err) => {
+        // Si no se encuentra el cliente, limpiamos los campos para que los complete manualmente
+        this.nombreCliente = '';
+        this.apellidoCliente = '';
+        this.emailCliente = '';
+        this.telefonoCliente = '';
+        console.log('Cliente no encontrado, se completará manualmente.');
+      }
+    });
+  }
 
 }
