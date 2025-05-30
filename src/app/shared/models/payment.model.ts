@@ -1,16 +1,15 @@
-import { Reservation } from './reservation.model';
-
 export interface Payment {
   id?: number;
-  title?: string; // el backend asigna uno por defecto si no se envía
+  title: string;
   quantity: number;
   unitPrice: number;
   email: string;
+
   preferenceId?: string;
-  statusPago?: string; // nombre real en el backend
+  statusPago?: 'CREADO' | 'PENDIENTE' | 'APROBADO' | 'RECHAZADO'; // usa tu enum
   createdAt?: string;
   initPoint?: string;
-  externalReference?: string;
+  externalReference: string;
   paymentId?: number;
-  reservationDTO: Reservation;
+  reservationId: number;
 }
