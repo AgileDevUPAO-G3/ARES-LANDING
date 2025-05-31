@@ -19,5 +19,4 @@ export class ClientService {
     return this.http.get<Client>(`${this.baseUrl}/clients/byDni/${dni}`);
   }
 
-  // Puedes agregar más métodos relacionados con clientes si lo necesitas
 }

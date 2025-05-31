@@ -5,9 +5,9 @@ import { ReservationService } from '../../core/services/reservation.service';
 import { Reservation } from '../../shared/models/reservation.model';
 import { Payment } from '../../shared/models/payment.model';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { ClientService } from '../../core/services/client.service';
+import { CommonModule } from '@angular/common'
 
-declare var MercadoPago: any;
 
 @Component({
   selector: 'app-registro-reservas',
@@ -35,7 +35,8 @@ export class RegistroReservasComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private paymentService: PaymentService,
-    private reservationService: ReservationService
+    private reservationService: ReservationService,
+    private clientService: ClientService
   ) {}
 
   ngOnInit(): void {
@@ -94,7 +95,6 @@ export class RegistroReservasComponent implements OnInit {
     this.paymentService.crearPreferencia(paymentRequest).subscribe({
       next: (response) => {
         if (response.initPoint) {
-          // Abre el Checkout Pro en una nueva ventana
           window.open(response.initPoint, '_blank');
         } else {
           alert('No se recibió el initPoint desde el backend.');
@@ -106,6 +106,42 @@ export class RegistroReservasComponent implements OnInit {
     });
   }
 
+  //solo para probar el pago
+  confirmarManual(): void {
+    if (!this.reservaCreada || !this.reservaCreada.id) return;
+    const externalRef = this.reservaCreada.id.toString();
+    const pagoSimulado = 123456789;
 
+    this.paymentService.confirmarPagoManual(externalRef, pagoSimulado).subscribe({
+      next: () => {
+        this.router.navigate(['/reserva-exitosa']);
+      },
+      error: (err) => {
+        alert('Error al confirmar el pago manual: ' + (err.error?.message || err.message));
+      }
+    });
+  }
+
+  buscarCliente(): void {
+    if (!this.dniCliente || this.dniCliente.length !== 8) return;
+
+    this.clientService.getClientByDni(this.dniCliente).subscribe({
+      next: (cliente) => {
+        if (cliente) {
+          this.nombreCliente = cliente.nombre;
+          this.apellidoCliente = cliente.apellido;
+          this.emailCliente = cliente.email;
+          this.telefonoCliente = cliente.telefono;
+        }
+      },
+      error: (err) => {
+        this.nombreCliente = '';
+        this.apellidoCliente = '';
+        this.emailCliente = '';
+        this.telefonoCliente = '';
+        console.log('Cliente no encontrado, se completará manualmente.');
+      }
+    });
+  }
 
 }

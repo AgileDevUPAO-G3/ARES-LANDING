@@ -20,8 +20,10 @@
         <input type="text" id="dni" name="dni" required maxlength="8" pattern="^[0-9]{8}$"
                [(ngModel)]="dniCliente" #dniCtrl="ngModel"
                [class.invalid]="dniCtrl.invalid && dniCtrl.touched"
-               placeholder="Solo 8 números" />
+               placeholder="Solo 8 números"
+               (blur)="buscarCliente()" />
       </label>
+
 
       <label for="fecha">Fecha
         <input type="date" id="fecha" name="fecha" [(ngModel)]="fecha" [readonly]="true" class="readonly-input" />
@@ -71,6 +73,10 @@
       </ul>
       <button (click)="iniciarPago()">Pagar con Mercado Pago</button>
       <button class="btn btn-secondary mt-2" (click)="etapaActual = 'registro'">← Volver a editar</button>
+
+      <!-- NUEVO BOTÓN PARA CONFIRMAR MANUALMENTE -->
+      <button class="btn btn-success mt-2" (click)="confirmarManual()">Aceptar Pago Manualmente</button>
+
     </div>
   </div>
 
