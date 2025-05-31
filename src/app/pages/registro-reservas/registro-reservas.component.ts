@@ -6,9 +6,8 @@ import { Reservation } from '../../shared/models/reservation.model';
 import { Payment } from '../../shared/models/payment.model';
 import { FormsModule } from '@angular/forms';
 import { ClientService } from '../../core/services/client.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common'
 
-declare var MercadoPago: any;
 
 @Component({
   selector: 'app-registro-reservas',
@@ -96,7 +95,6 @@ export class RegistroReservasComponent implements OnInit {
     this.paymentService.crearPreferencia(paymentRequest).subscribe({
       next: (response) => {
         if (response.initPoint) {
-          // Abre el Checkout Pro en una nueva ventana
           window.open(response.initPoint, '_blank');
         } else {
           alert('No se recibió el initPoint desde el backend.');
@@ -104,6 +102,22 @@ export class RegistroReservasComponent implements OnInit {
       },
       error: (err) => {
         alert('Error al generar la preferencia de pago: ' + (err.error?.message || err.message));
+      }
+    });
+  }
+
+  //solo para probar el pago
+  confirmarManual(): void {
+    if (!this.reservaCreada || !this.reservaCreada.id) return;
+    const externalRef = this.reservaCreada.id.toString();
+    const pagoSimulado = 123456789;
+
+    this.paymentService.confirmarPagoManual(externalRef, pagoSimulado).subscribe({
+      next: () => {
+        this.router.navigate(['/reserva-exitosa']);
+      },
+      error: (err) => {
+        alert('Error al confirmar el pago manual: ' + (err.error?.message || err.message));
       }
     });
   }
@@ -121,7 +135,6 @@ export class RegistroReservasComponent implements OnInit {
         }
       },
       error: (err) => {
-        // Si no se encuentra el cliente, limpiamos los campos para que los complete manualmente
         this.nombreCliente = '';
         this.apellidoCliente = '';
         this.emailCliente = '';
