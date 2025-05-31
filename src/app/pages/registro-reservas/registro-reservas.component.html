@@ -1,114 +1,77 @@
-
-<div class="row">
-    <div class="col-6">
-        <h2>Registro de Clientes</h2>
-    </div>
-    <div class="col-6">
-        <h2>Pago</h2>
-    </div>
+<!-- ENCABEZADO: Registro y Pago -->
+<div class="row text-center mb-4">
+  <div class="col-6">
+    <h2 [ngClass]="etapaActual === 'registro' ? 'etapa-activa' : 'etapa-inactiva'">
+      Registro de Clientes
+    </h2>
+  </div>
+  <div class="col-6">
+    <h2 [ngClass]="etapaActual === 'pago' ? 'etapa-activa' : 'etapa-inactiva'">
+      Pago
+    </h2>
+  </div>
 </div>
 
 <main>
-    <div class="container">
-      <form (ngSubmit)="onSubmit()" #reservationForm="ngForm" novalidate>
-        <label for="dni">DNI
-          <input
-            type="text"
-            id="dni"
-            name="dni"
-            required
-            maxlength="8"
-            pattern="^[0-9]{8}$"
-            [(ngModel)]="dniCliente"
-            #dniCtrl="ngModel"
-            [class.invalid]="dniCtrl.invalid && dniCtrl.touched"
-            (blur)="onDniBlur()"
-            placeholder="Solo 8 números"
-          />
-        </label>
+  <div class="container">
+    <!-- FORMULARIO: REGISTRO CLIENTE -->
+    <form *ngIf="etapaActual === 'registro'" (ngSubmit)="onSubmit()" #reservationForm="ngForm" novalidate>
+      <label for="dni">DNI
+        <input type="text" id="dni" name="dni" required maxlength="8" pattern="^[0-9]{8}$"
+               [(ngModel)]="dniCliente" #dniCtrl="ngModel"
+               [class.invalid]="dniCtrl.invalid && dniCtrl.touched"
+               placeholder="Solo 8 números" />
+      </label>
 
-        <label for="fecha">Fecha
-          <input
-            type="date"
-            id="fecha"
-            name="fecha"
-            [(ngModel)]="fecha"
-            disabled
-            class="readonly-input"
-          />
-        </label>
+      <label for="fecha">Fecha
+        <input type="date" id="fecha" name="fecha" [(ngModel)]="fecha" [readonly]="true" class="readonly-input" />
+      </label>
 
-        <label for="hora">Hora
-          <input
-            type="time"
-            id="hora"
-            name="hora"
-            [(ngModel)]="hora"
-            disabled
-            class="readonly-input"
-          />
-        </label>
+      <label for="hora">Hora
+        <input type="time" id="hora" name="hora" [(ngModel)]="hora" [readonly]="true" class="readonly-input" />
+      </label>
 
+      <label for="nombre">Nombre
+        <input type="text" id="nombre" name="nombre" required pattern="^[a-zA-ZÀ-ÿ\\s]+$"
+               [(ngModel)]="nombreCliente" #nombreCtrl="ngModel"
+               [class.invalid]="nombreCtrl.invalid && nombreCtrl.touched" placeholder="Solo letras" />
+      </label>
 
-        <label for="nombre">Nombre
-          <input
-            type="text"
-            id="nombre"
-            name="nombre"
-            required
-            pattern="^[a-zA-ZÀ-ÿ\s]+$"
-            [(ngModel)]="nombreCliente"
-            #nombreCtrl="ngModel"
-            [class.invalid]="nombreCtrl.invalid && nombreCtrl.touched"
-            placeholder="Solo letras"
-          />
-        </label>
+      <label for="apellido">Apellido
+        <input type="text" id="apellido" name="apellido" required pattern="^[a-zA-ZÀ-ÿ\\s]+$"
+               [(ngModel)]="apellidoCliente" #apellidoCtrl="ngModel"
+               [class.invalid]="apellidoCtrl.invalid && apellidoCtrl.touched" placeholder="Solo letras" />
+      </label>
 
-        <label for="apellido">Apellido
-          <input
-            type="text"
-            id="apellido"
-            name="apellido"
-            required
-            pattern="^[a-zA-ZÀ-ÿ\s]+$"
-            [(ngModel)]="apellidoCliente"
-            #apellidoCtrl="ngModel"
-            [class.invalid]="apellidoCtrl.invalid && apellidoCtrl.touched"
-            placeholder="Solo letras"
-          />
-        </label>
+      <label for="telefono">Teléfono
+        <input type="tel" id="telefono" name="telefono" required maxlength="9" pattern="^[0-9]{7,9}$"
+               placeholder="Solo números" [(ngModel)]="telefonoCliente" #telefonoCtrl="ngModel"
+               [class.invalid]="telefonoCtrl.invalid && telefonoCtrl.touched" />
+      </label>
 
-        <label for="telefono">Teléfono
-          <input
-            type="tel"
-            id="telefono"
-            name="telefono"
-            required
-            maxlength="9"
-            pattern="^[0-9]{7,9}$"
-            placeholder="Solo números"
-            [(ngModel)]="telefonoCliente"
-            #telefonoCtrl="ngModel"
-            [class.invalid]="telefonoCtrl.invalid && telefonoCtrl.touched"
-          />
-        </label>
+      <label for="email">Email
+        <input type="email" id="email" name="email" required [(ngModel)]="emailCliente"
+               #emailCtrl="ngModel" [class.invalid]="emailCtrl.invalid && emailCtrl.touched"
+               placeholder="email@ejemplo.com" />
+      </label>
 
-        <label for="email">Email
-          <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            [(ngModel)]="emailCliente"
-            #emailCtrl="ngModel"
-            [class.invalid]="emailCtrl.invalid && emailCtrl.touched"
-            placeholder="email@ejemplo.com"
-          />
-        </label>
+      <button type="submit" [disabled]="reservationForm.invalid">Ir a pagar</button>
+    </form>
 
-        <button type="submit" [disabled]="reservationForm.invalid">Ir a pagar</button>
-      </form>
-
-
+    <!-- FORMULARIO: PAGO -->
+    <div *ngIf="etapaActual === 'pago'">
+      <p><strong>Confirmar pago de la reserva para:</strong></p>
+      <ul>
+        <li>{{ nombreCliente }} {{ apellidoCliente }}</li>
+        <li>{{ emailCliente }}</li>
+        <li>Mesa Nº {{ mesaId }}</li>
+        <li>Fecha: {{ fecha }}</li>
+        <li>Hora: {{ hora }}</li>
+        <li>Monto: S/ 50.00</li>
+      </ul>
+      <button (click)="iniciarPago()">Pagar con Mercado Pago</button>
+      <button class="btn btn-secondary mt-2" (click)="etapaActual = 'registro'">← Volver a editar</button>
     </div>
+  </div>
+
 </main>
