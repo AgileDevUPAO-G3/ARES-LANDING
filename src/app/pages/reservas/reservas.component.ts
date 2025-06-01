@@ -18,6 +18,12 @@ export class ReservasComponent implements OnInit {
   fecha: string = '';
   hora: string = '';
   mesas: Mesa[] = [];
+
+  tiempoLimiteSegundos: number = 600; // 10 minutos = 600 segundos
+  tiempoRestante: number = 0;
+  intervaloId: any = null;
+  reservaIniciada: boolean = false;
+
   // Opciones predeterminadas
   opcionesPersonas: number[] = [2, 4, 5, 6, 7, 8, 10, 12];
   opcionesHoras: string[] = [
@@ -40,7 +46,7 @@ export class ReservasComponent implements OnInit {
     10: { top: '67%', left: '11.9%', width: '2.8%', height: '5%' },
     11: { top: '58%', left: '11.9%', width: '2.8%', height: '5%' },
     12: { top: '77%', left: '11.9%', width: '2.8%', height: '5%' },
-    13: { top: '11%', left: '14.1%',width: '4%', height: '13%' },
+    13: { top: '11%', left: '14.1%', width: '4%', height: '13%' },
     14: { top: '11.3%', left: '24%', width: '4%', height: '13%' },
     15: { top: '73%', left: '31.9%', width: '11%', height: '16%' },
     16: { top: '73%', left: '44%', width: '11%', height: '16%' },
@@ -51,7 +57,7 @@ export class ReservasComponent implements OnInit {
   };
 
   // constructor(private mesaService: MesaService) {}
-  constructor(private http: HttpClient ,private mesaService: MesaService, private router: Router) {}  // <-- Inyecta router
+  constructor(private http: HttpClient, private mesaService: MesaService, private router: Router) { }  // <-- Inyecta router
 
   ngOnInit(): void {
   }
@@ -82,17 +88,64 @@ export class ReservasComponent implements OnInit {
     });
   }
 
+  // empezarReserva(mesa: Mesa): void {
+  //   if (mesa.estado === 'DISPONIBLE') {
+  //     console.log('✔️ Redirigiendo a reserva de mesa:', mesa.numeroMesa);
+
+  //     this.router.navigate(
+  //       ['/registro-reservas', mesa.numeroMesa],
+  //       { queryParams: { fecha: this.fecha, hora: this.hora } }  // ✅ usamos hora directamente
+  //     );
+  //   } else {
+  //     console.warn('⚠️ Mesa no disponible:', mesa);
+  //   }
+  // }
+
   empezarReserva(mesa: Mesa): void {
     if (mesa.estado === 'DISPONIBLE') {
-      console.log('✔️ Redirigiendo a reserva de mesa:', mesa.numeroMesa);
+      this.reservaIniciada = true;
+      this.tiempoRestante = this.tiempoLimiteSegundos;
+      this.iniciarTemporizador();
 
+      // Rediriges a registro-reservas con parámetros
       this.router.navigate(
         ['/registro-reservas', mesa.numeroMesa],
-        { queryParams: { fecha: this.fecha, hora: this.hora } }  // ✅ usamos hora directamente
+        { queryParams: { fecha: this.fecha, hora: this.hora } }
       );
     } else {
       console.warn('⚠️ Mesa no disponible:', mesa);
     }
+  }
+
+  iniciarTemporizador() {
+    if (this.intervaloId) {
+      clearInterval(this.intervaloId);
+    }
+    this.intervaloId = setInterval(() => {
+      this.tiempoRestante--;
+      if (this.tiempoRestante <= 0) {
+        clearInterval(this.intervaloId);
+        this.tiempoRestante = 0;
+        alert('El tiempo para completar la reserva ha terminado.');
+        this.reservaIniciada = false;
+        this.router.navigate(['/reservas']); // vuelve al home
+      }
+    }, 1000);
+  }
+
+  detenerTemporizador() {
+    if (this.intervaloId) {
+      clearInterval(this.intervaloId);
+      this.intervaloId = null;
+    }
+    this.reservaIniciada = false;
+    this.tiempoRestante = 0;
+  }
+
+  get tiempoFormateado(): string {
+    const minutos = Math.floor(this.tiempoRestante / 60);
+    const segundos = this.tiempoRestante % 60;
+    return `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
   }
 
 }
