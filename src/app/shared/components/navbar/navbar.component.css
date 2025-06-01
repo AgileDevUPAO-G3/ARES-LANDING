@@ -1,0 +1,18 @@
+.navbar-dark {
+    background-color: #2E2E2E;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand .logo {
+    width: 80px;
+    height: 80px;
+}
+
+.navbar-nav .nav-link {
+    font-family: "Playwrite DK Loopet", cursive;
+    font-size: 1.2rem;
+}

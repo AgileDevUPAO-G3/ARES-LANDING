@@ -1,0 +1,30 @@
+.contenido_letra {
+    margin: 15px;
+    padding: 7px;
+    border: 3px solid #ffffff;
+    display: inline-block;
+    text-align: center;
+}
+
+.letra1 {
+    font-family: "Playwrite DK Loopet", cursive;
+    font-optical-sizing: auto;
+    font-size: 1.5rem;
+    color: white;
+    font-weight: normal;
+    font-style: normal;
+}
+
+.t_historia{
+    margin-top: 50px;
+    font-size: 2.5rem;
+    color: white;
+    text-align: center;
+}
+
+.p_historia{
+    font-size: 1.5rem;
+    color: white;
+    text-align:justify;
+    padding: 50px;
+}
