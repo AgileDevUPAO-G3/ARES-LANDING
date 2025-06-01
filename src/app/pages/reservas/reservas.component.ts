@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Router, RouterModule } from '@angular/router'; // ✅ Soporte routerLink
+import { Router, RouterModule } from '@angular/router';
 import { Mesa } from '../../shared/models/mesa.model';
 import { MesaService } from '../../core/services/mesa.service';
 
@@ -18,7 +18,7 @@ export class ReservasComponent implements OnInit {
   fecha: string = '';
   hora: string = '';
   mesas: Mesa[] = [];
-  // Opciones predeterminadas
+
   opcionesPersonas: number[] = [2, 4, 5, 6, 7, 8, 10, 12];
   opcionesHoras: string[] = [
     '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
@@ -40,7 +40,7 @@ export class ReservasComponent implements OnInit {
     10: { top: '67%', left: '11.9%', width: '2.8%', height: '5%' },
     11: { top: '58%', left: '11.9%', width: '2.8%', height: '5%' },
     12: { top: '77%', left: '11.9%', width: '2.8%', height: '5%' },
-    13: { top: '11%', left: '14.1%',width: '4%', height: '13%' },
+    13: { top: '11%', left: '14.1%', width: '4%', height: '13%' },
     14: { top: '11.3%', left: '24%', width: '4%', height: '13%' },
     15: { top: '73%', left: '31.9%', width: '11%', height: '16%' },
     16: { top: '73%', left: '44%', width: '11%', height: '16%' },
@@ -50,13 +50,14 @@ export class ReservasComponent implements OnInit {
     20: { top: '61%', left: '91.1%', width: '3%', height: '26.5%' }
   };
 
-  // constructor(private mesaService: MesaService) {}
-  constructor(private http: HttpClient ,private mesaService: MesaService, private router: Router) {}  // <-- Inyecta router
+  constructor(
+    private http: HttpClient,
+    private mesaService: MesaService,
+    private router: Router
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  // Para deshabilitar fechas pasadas
   get fechaMinima(): string {
     return new Date().toISOString().split('T')[0];
   }
@@ -75,6 +76,28 @@ export class ReservasComponent implements OnInit {
     this.http.post<Mesa[]>(url, payload).subscribe({
       next: (data) => {
         this.mesas = data;
+
+        const reservaEnProceso = JSON.parse(localStorage.getItem('reservaEnProceso') || 'null');
+        if (reservaEnProceso) {
+          const ahora = Date.now();
+          const tiempoLimite = 5 * 60 * 1000; // 5 minutos
+
+          if (ahora - reservaEnProceso.timestamp <= tiempoLimite) {
+            this.mesas = this.mesas.map(m => {
+              if (
+                m.numeroMesa === reservaEnProceso.mesaId &&
+                this.fecha === reservaEnProceso.fecha &&
+                this.hora === reservaEnProceso.hora &&
+                m.estado === 'DISPONIBLE'
+              ) {
+                return { ...m, estado: 'RESERVANDOSE' };
+              }
+              return m;
+            });
+          } else {
+            localStorage.removeItem('reservaEnProceso');
+          }
+        }
       },
       error: (err) => {
         console.error('Error al cargar mesas:', err);
@@ -84,16 +107,22 @@ export class ReservasComponent implements OnInit {
 
   empezarReserva(mesa: Mesa): void {
     if (mesa.estado === 'DISPONIBLE') {
-      console.log('✔️ Redirigiendo a reserva de mesa:', mesa.numeroMesa);
+      const reservaTemporal = {
+        mesaId: mesa.numeroMesa,
+        fecha: this.fecha,
+        hora: this.hora,
+        timestamp: Date.now()
+      };
+      localStorage.setItem('reservaEnProceso', JSON.stringify(reservaTemporal));
+
+      console.log('✔️ Mesa en reserva temporal:', reservaTemporal);
 
       this.router.navigate(
         ['/registro-reservas', mesa.numeroMesa],
-        { queryParams: { fecha: this.fecha, hora: this.hora } }  // ✅ usamos hora directamente
+        { queryParams: { fecha: this.fecha, hora: this.hora } }
       );
     } else {
       console.warn('⚠️ Mesa no disponible:', mesa);
     }
   }
-
 }
-
