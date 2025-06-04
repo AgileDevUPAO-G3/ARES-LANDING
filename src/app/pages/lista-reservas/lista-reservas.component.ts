@@ -1,24 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReservationService } from '../../core/services/reservation.service';
-import { ReservationList } from '../../shared/models/reservation-list.model';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-lista-reservas',
-  standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './lista-reservas.component.html',
-  styleUrls: ['./lista-reservas.component.css']
+  styleUrl: './lista-reservas.component.css'
 })
-export class ListaReservasComponent implements OnInit {
-  reservas: ReservationList[] = [];
+export class ListaReservasComponent {
 
-  constructor(private reservationService: ReservationService) {}
-
-  ngOnInit(): void {
-    this.reservationService.getReservationList().subscribe({
-      next: (data) => this.reservas = data,
-      error: (err) => console.error('❌ Error al cargar reservas:', err)
-    });
-  }
 }
