@@ -31,6 +31,11 @@ export class RegistroReservasComponent implements OnInit {
   reservaCreada: Reservation | null = null;
   mostrarModal: boolean = false;
 
+  // Temporizador
+  tiempoLimiteSegundos: number = 600; // 10 minutos (cambia a 30 para pruebas)
+  tiempoRestante: number = this.tiempoLimiteSegundos;
+  intervaloId: any;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -45,6 +50,39 @@ export class RegistroReservasComponent implements OnInit {
       this.fecha = params['fecha'] || '';
       this.hora = params['hora'] || '';
     });
+
+    // Iniciar el temporizador cuando se cargue el componente
+    this.iniciarTemporizador();
+  }
+
+  ngOnDestroy(): void {
+    // Limpiar el intervalo para evitar fugas de memoria
+    this.detenerTemporizador();
+  }
+
+  iniciarTemporizador() {
+    this.tiempoRestante = this.tiempoLimiteSegundos;
+    this.intervaloId = setInterval(() => {
+      this.tiempoRestante--;
+      if (this.tiempoRestante <= 0) {
+        this.detenerTemporizador();
+        alert('El tiempo para completar la reserva ha terminado.');
+        this.router.navigate(['/reservas']);
+      }
+    }, 1000);
+  }
+
+  detenerTemporizador() {
+    if (this.intervaloId) {
+      clearInterval(this.intervaloId);
+      this.intervaloId = null;
+    }
+  }
+
+  get tiempoFormateado(): string {
+    const minutos = Math.floor(this.tiempoRestante / 60);
+    const segundos = this.tiempoRestante % 60;
+    return `${minutos.toString().padStart(2,'0')}:${segundos.toString().padStart(2,'0')}`;
   }
 
   onSubmit(): void {
@@ -106,7 +144,6 @@ export class RegistroReservasComponent implements OnInit {
     });
   }
 
-  //solo para probar el pago
   confirmarManual(): void {
     if (!this.reservaCreada || !this.reservaCreada.id) return;
     const externalRef = this.reservaCreada.id.toString();
@@ -143,5 +180,4 @@ export class RegistroReservasComponent implements OnInit {
       }
     });
   }
-
 }

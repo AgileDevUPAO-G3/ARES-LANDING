@@ -1,61 +1,70 @@
-<!-- ENCABEZADO: Registro y Pago -->
-<div class="row text-center mb-4">
-  <div class="col-6">
-    <h2 [ngClass]="etapaActual === 'registro' ? 'etapa-activa' : 'etapa-inactiva'">
-      Registro de Clientes
-    </h2>
-  </div>
-  <div class="col-6">
-    <h2 [ngClass]="etapaActual === 'pago' ? 'etapa-activa' : 'etapa-inactiva'">
-      Pago
-    </h2>
-  </div>
-</div>
-
 <main>
+  <div>
+    <!-- ENCABEZADO: Registro y Pago -->
+    <div class="row text-center">
+      <div class="col-6">
+        <h2 [ngClass]="etapaActual === 'registro' ? 'etapa-activa' : 'etapa-inactiva'">
+          Registro de Clientes
+        </h2>
+      </div>
+      <div class="col-6">
+        <h2 [ngClass]="etapaActual === 'pago' ? 'etapa-activa' : 'etapa-inactiva'">
+          Pago
+        </h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="temporizador" *ngIf="tiempoRestante > 0">
+    Tiempo restante para completar la reserva: {{ tiempoFormateado }}
+  </div>
+
   <div class="container">
     <!-- FORMULARIO: REGISTRO CLIENTE -->
     <form *ngIf="etapaActual === 'registro'" (ngSubmit)="onSubmit()" #reservationForm="ngForm" novalidate>
-      <label for="dni">DNI
-        <input type="text" id="dni" name="dni" required maxlength="8" pattern="^[0-9]{8}$"
-               [(ngModel)]="dniCliente" #dniCtrl="ngModel"
-               [class.invalid]="dniCtrl.invalid && dniCtrl.touched"
-               placeholder="Solo 8 números"
-               (blur)="buscarCliente()" />
-      </label>
+      <div class="form-row">
+        <label for="dni">DNI</label>
+          <input type="text" id="dni" name="dni" required maxlength="8" pattern="^[0-9]{8}$" [(ngModel)]="dniCliente"
+            #dniCtrl="ngModel" [class.invalid]="dniCtrl.invalid && dniCtrl.touched" placeholder="Solo 8 números"
+            (blur)="buscarCliente()" />
+      </div>
 
+      <div class="form-row">
+        <label for="fecha">Fecha</label>
+          <input type="date" id="fecha" name="fecha" [(ngModel)]="fecha" [readonly]="true" class="readonly-input" />
+      </div>
 
-      <label for="fecha">Fecha
-        <input type="date" id="fecha" name="fecha" [(ngModel)]="fecha" [readonly]="true" class="readonly-input" />
-      </label>
+      <div class="form-row">
+        <label for="hora">Hora</label>
+          <input type="time" id="hora" name="hora" [(ngModel)]="hora" [readonly]="true" class="readonly-input" />
+      </div>
 
-      <label for="hora">Hora
-        <input type="time" id="hora" name="hora" [(ngModel)]="hora" [readonly]="true" class="readonly-input" />
-      </label>
+      <div class="form-row">
+        <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" name="nombre" required pattern="^[a-zA-ZÀ-ÿ\\s]+$" [(ngModel)]="nombreCliente"
+            #nombreCtrl="ngModel" [class.invalid]="nombreCtrl.invalid && nombreCtrl.touched"
+            placeholder="Solo letras" />
+      </div>
 
-      <label for="nombre">Nombre
-        <input type="text" id="nombre" name="nombre" required pattern="^[a-zA-ZÀ-ÿ\\s]+$"
-               [(ngModel)]="nombreCliente" #nombreCtrl="ngModel"
-               [class.invalid]="nombreCtrl.invalid && nombreCtrl.touched" placeholder="Solo letras" />
-      </label>
+      <div class="form-row">
+        <label for="apellido">Apellido</label>
+          <input type="text" id="apellido" name="apellido" required pattern="^[a-zA-ZÀ-ÿ\\s]+$"
+            [(ngModel)]="apellidoCliente" #apellidoCtrl="ngModel"
+            [class.invalid]="apellidoCtrl.invalid && apellidoCtrl.touched" placeholder="Solo letras" />
+      </div>
 
-      <label for="apellido">Apellido
-        <input type="text" id="apellido" name="apellido" required pattern="^[a-zA-ZÀ-ÿ\\s]+$"
-               [(ngModel)]="apellidoCliente" #apellidoCtrl="ngModel"
-               [class.invalid]="apellidoCtrl.invalid && apellidoCtrl.touched" placeholder="Solo letras" />
-      </label>
+      <div class="form-row">
+        <label for="telefono">Teléfono</label>
+          <input type="tel" id="telefono" name="telefono" required maxlength="9" pattern="^[0-9]{7,9}$"
+            placeholder="Solo números" [(ngModel)]="telefonoCliente" #telefonoCtrl="ngModel"
+            [class.invalid]="telefonoCtrl.invalid && telefonoCtrl.touched" />
+      </div>
 
-      <label for="telefono">Teléfono
-        <input type="tel" id="telefono" name="telefono" required maxlength="9" pattern="^[0-9]{7,9}$"
-               placeholder="Solo números" [(ngModel)]="telefonoCliente" #telefonoCtrl="ngModel"
-               [class.invalid]="telefonoCtrl.invalid && telefonoCtrl.touched" />
-      </label>
-
-      <label for="email">Email
-        <input type="email" id="email" name="email" required [(ngModel)]="emailCliente"
-               #emailCtrl="ngModel" [class.invalid]="emailCtrl.invalid && emailCtrl.touched"
-               placeholder="email@ejemplo.com" />
-      </label>
+      <div class="form-row">
+        <label for="email">Email</label>
+          <input type="email" id="email" name="email" required [(ngModel)]="emailCliente" #emailCtrl="ngModel"
+            [class.invalid]="emailCtrl.invalid && emailCtrl.touched" placeholder="email@ejemplo.com" />
+      </div>
 
       <button type="submit" [disabled]="reservationForm.invalid">Ir a pagar</button>
     </form>

@@ -20,6 +20,12 @@ export class ReservasComponent implements OnInit {
   hora: string = '';
   mesas: Mesa[] = [];
 
+  tiempoLimiteSegundos: number = 600; // 10 minutos = 600 segundos
+  tiempoRestante: number = 0;
+  intervaloId: any = null;
+  reservaIniciada: boolean = false;
+
+  // Opciones predeterminadas
   opcionesPersonas: number[] = [2, 4, 5, 6, 7, 8, 10, 12];
   opcionesHoras: string[] = [
     '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
@@ -50,6 +56,7 @@ export class ReservasComponent implements OnInit {
     19: { top: '65%', left: '83%', width: '3%', height: '22.5%' },
     20: { top: '61%', left: '91.1%', width: '3%', height: '26.5%' }
   };
+
 
   constructor(
     private disponibilidadService: DisponibilidadService,
@@ -104,6 +111,19 @@ export class ReservasComponent implements OnInit {
     });
   }
 
+  // empezarReserva(mesa: Mesa): void {
+  //   if (mesa.estado === 'DISPONIBLE') {
+  //     console.log('✔️ Redirigiendo a reserva de mesa:', mesa.numeroMesa);
+
+  //     this.router.navigate(
+  //       ['/registro-reservas', mesa.numeroMesa],
+  //       { queryParams: { fecha: this.fecha, hora: this.hora } }  // ✅ usamos hora directamente
+  //     );
+  //   } else {
+  //     console.warn('⚠️ Mesa no disponible:', mesa);
+  //   }
+  // }
+
   empezarReserva(mesa: Mesa): void {
     if (mesa.estado === 'DISPONIBLE') {
       const reservaTemporal = {
@@ -116,6 +136,11 @@ export class ReservasComponent implements OnInit {
 
       console.log('✔️ Mesa en reserva temporal:', reservaTemporal);
 
+      this.reservaIniciada = true;
+      this.tiempoRestante = this.tiempoLimiteSegundos;
+      this.iniciarTemporizador();
+
+      // Rediriges a registro-reservas con parámetros
       this.router.navigate(
         ['/registro-reservas', mesa.numeroMesa],
         { queryParams: { fecha: this.fecha, hora: this.hora } }
@@ -124,4 +149,38 @@ export class ReservasComponent implements OnInit {
       console.warn('⚠️ Mesa no disponible:', mesa);
     }
   }
+
+
+  iniciarTemporizador() {
+    if (this.intervaloId) {
+      clearInterval(this.intervaloId);
+    }
+    this.intervaloId = setInterval(() => {
+      this.tiempoRestante--;
+      if (this.tiempoRestante <= 0) {
+        clearInterval(this.intervaloId);
+        this.tiempoRestante = 0;
+        alert('El tiempo para completar la reserva ha terminado.');
+        this.reservaIniciada = false;
+        this.router.navigate(['/reservas']); // vuelve al home
+      }
+    }, 1000);
+  }
+
+  detenerTemporizador() {
+    if (this.intervaloId) {
+      clearInterval(this.intervaloId);
+      this.intervaloId = null;
+    }
+    this.reservaIniciada = false;
+    this.tiempoRestante = 0;
+  }
+
+  get tiempoFormateado(): string {
+    const minutos = Math.floor(this.tiempoRestante / 60);
+    const segundos = this.tiempoRestante % 60;
+    return `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
+  }
+
 }
+

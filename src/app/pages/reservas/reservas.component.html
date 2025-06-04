@@ -1,6 +1,7 @@
 <section class="reserva-container">
   <!-- Filtros -->
   <div class="filtros">
+
     <!-- Personas -->
     <select [(ngModel)]="personas" class="filtro-input">
       <option value="" disabled selected>Personas</option>
@@ -10,13 +11,7 @@
     </select>
 
     <!-- Fecha -->
-    <input
-      type="date"
-      [(ngModel)]="fecha"
-      class="filtro-input"
-      [min]="fechaMinima"
-      placeholder="Fecha"
-    />
+    <input type="date" [(ngModel)]="fecha" class="filtro-input" [min]="fechaMinima" placeholder="Fecha" />
 
     <!-- Hora -->
     <select [(ngModel)]="hora" class="filtro-input">
@@ -26,12 +21,8 @@
   </div>
 
   <!-- Botón para cargar disponibilidad -->
-  <div style="text-align: center; margin-top: 1rem;">
-    <button
-      class="btn-reservar"
-      (click)="cargarMesas()"
-      [disabled]="!todosLosFiltrosSeleccionados()"
-    >
+  <div style="text-align: center;">
+    <button class="btn-reservar" (click)="cargarMesas()" [disabled]="!todosLosFiltrosSeleccionados()">
       Buscar disponibilidad
     </button>
   </div>
@@ -61,13 +52,14 @@
         <div>Zona: {{ mesa.zoneName }}</div>
         <div>Capacidad: {{ mesa.capacidad }}</div>
         <div>Estado: {{ mesa.estado }}</div>
-
         <!-- Mostrar botón solo si está disponible -->
         <button
           class="btn-reservar"
           *ngIf="mesa.estado === 'DISPONIBLE'"
           (click)="empezarReserva(mesa)"
         >
+        <!-- Si está disponible: permitir ir a /registro-reservas -->
+        <button class="btn-reservar" *ngIf="mesa.estado === 'DISPONIBLE'" (click)="empezarReserva(mesa)">
           Empezar reserva
         </button>
 
