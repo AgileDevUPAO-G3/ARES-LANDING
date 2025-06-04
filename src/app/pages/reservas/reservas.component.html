@@ -58,8 +58,6 @@
           *ngIf="mesa.estado === 'DISPONIBLE'"
           (click)="empezarReserva(mesa)"
         >
-        <!-- Si está disponible: permitir ir a /registro-reservas -->
-        <button class="btn-reservar" *ngIf="mesa.estado === 'DISPONIBLE'" (click)="empezarReserva(mesa)">
           Empezar reserva
         </button>
 
