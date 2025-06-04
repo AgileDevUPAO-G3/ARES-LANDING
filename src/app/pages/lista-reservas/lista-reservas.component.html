@@ -1,44 +1,73 @@
 <main>
-  <div class="container-fluid lista-reservas">
-    <div class="row">
-      <div class="col-12">
-        <h2>LISTA DE RESERVAS</h2>
-      </div>
+    <div class="container-fluid lista-reservas">
+        <div class="row">
+            <div class="col-12">
+                <h2>LISTA DE RESERVAS</h2>
+            </div>
+        </div>
     </div>
-  </div>
+    <div class="container-fluid listas">
+        <div class="reserva">
+            <div class="info">
+                <div class="campo">
+                    <label>N° Reserva:</label>
+                    <div class="valor-peque">000000403</div>
+                </div>
+                <div class="campo">
+                    <label>Nombre:</label>
+                    <div class="valor-grande">Alejandro Oliden Donayre</div>
+                </div>
+                <div class="campo">
+                    <label>N° Mesa:</label>
+                    <div class="valor-grande">3</div>
+                </div>
+                <div class="campo">
+                    <label>Personas:</label>
+                    <div class="valor-grande">4</div>
+                </div>
+                <div class="campo">
+                    <label>Zona:</label>
+                    <div class="valor-grande">Clásica</div>
+                </div>
+                <div class="campo">
+                    <label>Fecha:</label>
+                    <div class="valor-grande">11 de marzo de 2025</div>
+                </div>
+                <div class="hora">Hora: 16:30</div>
+            </div>
+            <div class="estado asistio">ASISTIÓ</div>
+        </div>
 
-  <div class="container-fluid listas">
-    <div class="reserva" *ngFor="let r of reservas">
-      <div class="info">
-        <div class="campo">
-          <label>N° Reserva:</label>
-          <div class="valor-peque">{{ r.id | number:'6.0' }}</div>
+        <div class="reserva">
+            <div class="info">
+                <div class="campo">
+                    <label>N° Reserva:</label>
+                    <div class="valor-peque">000000404</div>
+                </div>
+                <div class="campo">
+                    <label>Nombre:</label>
+                    <div class="valor-grande">Marcelo Quintero</div>
+                </div>
+                <div class="campo">
+                    <label>N° Mesa:</label>
+                    <div class="valor-grande">2</div>
+                </div>
+                <div class="campo">
+                    <label>Personas:</label>
+                    <div class="valor-grande">2</div>
+                </div>
+                <div class="campo">
+                    <label>Zona:</label>
+                    <div class="valor-grande">Clásica</div>
+                </div>
+                <div class="campo">
+                    <label>Fecha:</label>
+                    <div class="valor-grande">11 de marzo de 2025</div>
+                </div>
+                <div class="hora">Hora: 17:00</div>
+            </div>
+            <div class="estado falto">FALTO</div>
         </div>
-        <div class="campo">
-          <label>Nombre:</label>
-          <div class="valor-grande">{{ r.nombreCliente }}</div>
-        </div>
-        <div class="campo">
-          <label>N° Mesa:</label>
-          <div class="valor-grande">{{ r.numeroMesa }}</div>
-        </div>
-        <div class="campo">
-          <label>Personas:</label>
-          <div class="valor-grande">{{ r.capacidad }}</div>
-        </div>
-        <div class="campo">
-          <label>Zona:</label>
-          <div class="valor-grande">{{ r.zone }}</div>
-        </div>
-        <div class="campo">
-          <label>Fecha:</label>
-          <div class="valor-grande">
-            {{ r.fechaReservada | date:"dd 'de' MMMM 'de' yyyy" }}
-          </div>
-        </div>
-        <div class="hora">Hora: {{ r.horaInicio.slice(0, 5) }}</div>
-      </div>
-      <div class="estado asistio">ASISTIÓ</div> <!-- temporal -->
+
     </div>
-  </div>
 </main>

@@ -31,29 +31,42 @@
   <div *ngIf="mesas.length > 0" class="mapa-container">
     <img src="/mesas/mesas.png" alt="Mapa de mesas" />
 
-    <div *ngFor="let mesa of mesas" class="mesa-overlay" [ngClass]="{ 'mesa-disponible': mesa.estado === 'DISPONIBLE' }"
+    <div
+      *ngFor="let mesa of mesas"
+      class="mesa-overlay"
+      [ngClass]="{ 'mesa-disponible': mesa.estado === 'DISPONIBLE' }"
       [ngStyle]="{
-    top: posicionesMesa[mesa.numeroMesa].top,
-    left: posicionesMesa[mesa.numeroMesa].left,
-    width: posicionesMesa[mesa.numeroMesa].width,
-    height: posicionesMesa[mesa.numeroMesa].height,
-    backgroundColor: mesa.estado === 'DISPONIBLE'
-      ? 'rgba(0,255,0,0.2)'
-      : mesa.estado === 'RESERVADO'
-      ? 'rgba(255,0,0,0.3)'
-      : 'rgba(255,255,0,0.3)'
-  }">
+        top: posicionesMesa[mesa.numeroMesa].top,
+        left: posicionesMesa[mesa.numeroMesa].left,
+        width: posicionesMesa[mesa.numeroMesa].width,
+        height: posicionesMesa[mesa.numeroMesa].height,
+        backgroundColor: mesa.estado === 'DISPONIBLE'
+          ? 'rgba(0,255,0,0.2)'
+          : mesa.estado === 'RESERVADO'
+          ? 'rgba(255,0,0,0.3)'
+          : 'rgba(255,255,0,0.3)'
+      }"
+    >
       <div class="tooltip">
         <div><strong>Mesa {{ mesa.numeroMesa }}</strong></div>
-        <div>Zona: {{ mesa.zoneName }}</div> <!-- ✅ CORREGIDO -->
+        <div>Zona: {{ mesa.zoneName }}</div>
         <div>Capacidad: {{ mesa.capacidad }}</div>
         <div>Estado: {{ mesa.estado }}</div>
-
+        <!-- Mostrar botón solo si está disponible -->
+        <button
+          class="btn-reservar"
+          *ngIf="mesa.estado === 'DISPONIBLE'"
+          (click)="empezarReserva(mesa)"
+        >
         <!-- Si está disponible: permitir ir a /registro-reservas -->
         <button class="btn-reservar" *ngIf="mesa.estado === 'DISPONIBLE'" (click)="empezarReserva(mesa)">
           Empezar reserva
         </button>
 
+        <!-- Mostrar texto si está en estado reservándose -->
+        <span *ngIf="mesa.estado === 'RESERVANDOSE'" class="estado-mesa">
+          Reservándose...
+        </span>
       </div>
     </div>
   </div>

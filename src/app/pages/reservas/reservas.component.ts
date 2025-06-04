@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Router, RouterModule } from '@angular/router'; // ✅ Soporte routerLink
+import { Router, RouterModule } from '@angular/router';
 import { Mesa } from '../../shared/models/mesa.model';
 import { MesaService } from '../../core/services/mesa.service';
+import { DisponibilidadService } from '../../core/services/disponibilidad.service';
+import { Disponibilidad } from '../../shared/models/disponibilidad.model';
 
 @Component({
   selector: 'app-reservas',
   standalone: true,
-  imports: [FormsModule, CommonModule, HttpClientModule, RouterModule],
+  imports: [FormsModule, CommonModule, RouterModule],
   templateUrl: './reservas.component.html',
-  styleUrl: './reservas.component.css'
+  styleUrls: ['./reservas.component.css']
 })
 export class ReservasComponent implements OnInit {
   personas: number | null = null;
@@ -56,13 +57,14 @@ export class ReservasComponent implements OnInit {
     20: { top: '61%', left: '91.1%', width: '3%', height: '26.5%' }
   };
 
-  // constructor(private mesaService: MesaService) {}
-  constructor(private http: HttpClient, private mesaService: MesaService, private router: Router) { }  // <-- Inyecta router
 
-  ngOnInit(): void {
-  }
+  constructor(
+    private disponibilidadService: DisponibilidadService,
+    private router: Router
+  ) {}
 
-  // Para deshabilitar fechas pasadas
+  ngOnInit(): void {}
+
   get fechaMinima(): string {
     return new Date().toISOString().split('T')[0];
   }
@@ -72,15 +74,36 @@ export class ReservasComponent implements OnInit {
   }
 
   cargarMesas(): void {
-    const url = 'http://localhost:8080/api/v1/api/disponibilidad';
-    const payload = {
+    const payload: Disponibilidad = {
       fecha: this.fecha,
       hora: this.hora
     };
 
-    this.http.post<Mesa[]>(url, payload).subscribe({
+    this.disponibilidadService.consultarDisponibilidad(payload).subscribe({
       next: (data) => {
         this.mesas = data;
+
+        const reservaEnProceso = JSON.parse(localStorage.getItem('reservaEnProceso') || 'null');
+        if (reservaEnProceso) {
+          const ahora = Date.now();
+          const tiempoLimite = 5 * 60 * 1000; // 5 minutos
+
+          if (ahora - reservaEnProceso.timestamp <= tiempoLimite) {
+            this.mesas = this.mesas.map(m => {
+              if (
+                m.numeroMesa === reservaEnProceso.mesaId &&
+                this.fecha === reservaEnProceso.fecha &&
+                this.hora === reservaEnProceso.hora &&
+                m.estado === 'DISPONIBLE'
+              ) {
+                return { ...m, estado: 'RESERVANDOSE' };
+              }
+              return m;
+            });
+          } else {
+            localStorage.removeItem('reservaEnProceso');
+          }
+        }
       },
       error: (err) => {
         console.error('Error al cargar mesas:', err);
@@ -103,6 +126,16 @@ export class ReservasComponent implements OnInit {
 
   empezarReserva(mesa: Mesa): void {
     if (mesa.estado === 'DISPONIBLE') {
+      const reservaTemporal = {
+        mesaId: mesa.numeroMesa,
+        fecha: this.fecha,
+        hora: this.hora,
+        timestamp: Date.now()
+      };
+      localStorage.setItem('reservaEnProceso', JSON.stringify(reservaTemporal));
+
+      console.log('✔️ Mesa en reserva temporal:', reservaTemporal);
+
       this.reservaIniciada = true;
       this.tiempoRestante = this.tiempoLimiteSegundos;
       this.iniciarTemporizador();
@@ -116,6 +149,7 @@ export class ReservasComponent implements OnInit {
       console.warn('⚠️ Mesa no disponible:', mesa);
     }
   }
+
 
   iniciarTemporizador() {
     if (this.intervaloId) {
