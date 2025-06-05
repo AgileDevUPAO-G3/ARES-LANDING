@@ -1,0 +1,25 @@
+<div class="login-container">
+  <h2>Ingreso Administrador</h2>
+
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <form (ngSubmit)="login()" class="login-form">
+    <input
+      type="text"
+      placeholder="Usuario"
+      [(ngModel)]="username"
+      name="username"
+      required
+    />
+
+    <input
+      type="password"
+      placeholder="Contraseña"
+      [(ngModel)]="password"
+      name="password"
+      required
+    />
+
+    <button type="submit">Ingresar</button>
+  </form>
+</div>

@@ -1,0 +1,35 @@
+.login-container {
+  background-color: #2D4647;
+  color: white;
+  padding: 30px;
+  max-width: 400px;
+  margin: 50px auto;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 4px;
+}
+
+.login-form button {
+  background-color: #AD6D38;
+  color: white;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login-form button:hover {
+  background-color: #a5472f;
+}
+
+.error-message {
+  color: #ffaaaa;
+  margin-bottom: 10px;
+}
