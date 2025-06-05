@@ -54,4 +54,8 @@ export class ReservationService {
   deleteReservation(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+
+  getAllReservationsForAdmin(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.baseUrl}/admin/reservations`);
+}
 }
