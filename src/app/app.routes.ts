@@ -12,7 +12,6 @@ import {
 } from './pages/registro-reservas/Reserva-estados/reserva-en-proceso/reserva-en-proceso.component';
 import {ReservaErrorComponent} from './pages/registro-reservas/Reserva-estados/reserva-error/reserva-error.component';
 import { LoginComponent } from './pages/login/login.component';
-import { AdminReservasComponent } from './pages/admin-reservas/admin-reservas.component';
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -23,6 +22,5 @@ export const routes: Routes = [
   { path: 'reserva-exitosa', component: ReservaExitosaComponent },
   { path: 'reserva-en-proceso', component: ReservaEnProcesoComponent },
   { path: 'reserva-error', component: ReservaErrorComponent },
-  { path: 'login', component: LoginComponent},
-  { path: 'admin-reservas', component: AdminReservasComponent}
+  { path: 'login', component: LoginComponent}
 ];
