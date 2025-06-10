@@ -1,3 +1,7 @@
+.footer {
+    justify-content:center;
+}
+
 .social-icons{
     display: flex;
     justify-content: center;
@@ -7,23 +11,53 @@
 }
 
 .social-icons .nav-item {
-    display: inline-block;
+    /* display: inline-block; */
     margin-right: 15px;
 }
 
-.social-icons .nav-item:last-child {
-    margin-right: 0;
-}
-
 .contacto {
-    margin-right: 150px;
-    padding: 35px;
+    margin: 0px;
+    padding: 20px;
     color: white;
     text-align: start;
-    padding: 10px;
 }
 
 .copyright {
     color: white;
     margin: 30px;
+}
+
+
+@media (max-width: 768px) {
+    .container-fluid {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .social-icons {
+        padding: 15px;
+    }
+
+    .social-icons i {
+        font-size: 2rem;
+    }
+
+    .img-logo {
+        display: none;
+    }
+
+    .contacto {
+        padding: 15px;
+        text-align: start;
+    }
+
+    .contact-item {
+        margin: 10px 0;
+    }
+
+    .copyright {
+        font-size: 14px;
+        margin: 20px;
+        text-align: center;
+    }
 }
