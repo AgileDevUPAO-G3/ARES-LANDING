@@ -19,7 +19,8 @@ body {
     height: auto;
     display: block;
     object-fit: contain;
-    border-radius: 50%;
+    border-radius: 40%;
+    padding: 10px;
 }
 
 .menu > .row > div:nth-child(2) {
