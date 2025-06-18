@@ -1,9 +1,10 @@
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="assets/img/PachaGris.jpg" alt="..." class="logo w-100">
-            </a>
+            <div class="img-logo">
+                <a href="\"><img src="assets/img/PachaGris.jpg" alt="Logo de Pacha Restaurante" class="img-fluid"></a>
+                
+            </div>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,13 +14,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/carta">Nuestra Carta</a>
+                        <a class="nav-link" routerLink="/carta" aria-label="Ir a nuestra carta">Nuestra Carta</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/reservas">Reservas</a>
+                        <a class="nav-link" routerLink="/reservas" aria-label="Ir a las reservas">Reservas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/login">Contacto</a>
+                        <a class="nav-link" routerLink="/login" aria-label="Ir a contacto">Contacto</a>
                 </ul>
             </div>
         </div>

@@ -109,12 +109,15 @@
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.25s ease, transform 0.25s ease;
-  pointer-events: auto;
+  pointer-events: none; /* Oculto, no recibe eventos */
 }
 
-.mesa-overlay:hover .tooltip {
+/* Mostrar tooltip cuando el cursor está en mesa o en el tooltip */
+.mesa-overlay:hover > .tooltip,
+.mesa-overlay > .tooltip:hover {
   opacity: 1;
   transform: translateY(0);
+  pointer-events: auto; /* Habilitar eventos para interacción */
 }
 
 /*boton del tooltip*/
