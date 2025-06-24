@@ -15,4 +15,9 @@ export class MesaService {
   getMesas(): Observable<Mesa[]> {
     return this.http.get<Mesa[]>(`${this.baseUrl}/tables`);
   }
+
+  actualizarEstadoMesa(id: number, nuevoEstado: string): Observable<any> {
+    return this.http.put(`${this.baseUrl}/tables/${id}/estado`, { estado: nuevoEstado });
+  }
+
 }
