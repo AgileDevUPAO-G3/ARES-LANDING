@@ -9,5 +9,5 @@ export interface Reservation {
   telefonoCliente: string;
   dniCliente: string;
   stateReservation?: 'PENDIENTE' | 'RESERVADA'; // opcional, o string si prefieres
-  stateReservationClient?: 'EN_ESPERA' | 'ASISTIO' | 'NO_ASISTIO'; // ⚠️ faltaba
+  stateReservationClient?: 'EN_ESPERA' | 'ASISTIO' | 'NO_ASISTIO'; 
 }
