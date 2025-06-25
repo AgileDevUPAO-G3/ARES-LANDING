@@ -3,11 +3,12 @@
   <div class="filtros">
     <!-- Personas -->
     <select [(ngModel)]="personas" class="filtro-input">
-      <option value="" disabled selected>Personas</option>
-      <option *ngFor="let p of opcionesPersonas" [value]="p">
+      <option [ngValue]="null" selected>Todos</option>
+      <option *ngFor="let p of opcionesPersonas" [ngValue]="p">
         {{ p }} persona{{ p > 1 ? 's' : '' }}
       </option>
     </select>
+
 
     <!-- Fecha -->
     <input
@@ -28,7 +29,7 @@
     </select>
 
     <button class="btn-reservar" (click)="cargarMesas()" [disabled]="!todosLosFiltrosSeleccionados()">
-      Buscar Mesas
+      <span>Buscar Mesas</span>
     </button>
 
   </div>
@@ -71,7 +72,7 @@
           *ngIf="mesa.estado === 'DISPONIBLE'"
           (click)="empezarReserva(mesa)"
         >
-          Empezar reserva
+          <span>Empezar reserva</span>
         </button>
 
         <!-- Texto si está reservándose -->
