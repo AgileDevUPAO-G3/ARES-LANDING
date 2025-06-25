@@ -1,7 +1,6 @@
 <section class="reserva-container">
   <!-- Filtros -->
   <div class="filtros">
-
     <!-- Personas -->
     <select [(ngModel)]="personas" class="filtro-input">
       <option value="" disabled selected>Personas</option>
@@ -11,21 +10,34 @@
     </select>
 
     <!-- Fecha -->
-    <input type="date" [(ngModel)]="fecha" class="filtro-input" [min]="fechaMinima" placeholder="Fecha" />
+    <input
+      type="date"
+      [(ngModel)]="fecha"
+      class="filtro-input"
+      [min]="fechaMinima"
+      [max]="fechaMaxima"
+      placeholder="Fecha"
+    />
 
     <!-- Hora -->
     <select [(ngModel)]="hora" class="filtro-input">
       <option value="" disabled selected>Hora</option>
-      <option *ngFor="let h of opcionesHoras" [value]="h">{{ h }}</option>
+      <option *ngFor="let h of opcionesHorasFiltradas()" [value]="h">
+        {{ h }}
+      </option>
     </select>
+
+    <button class="btn-reservar" (click)="cargarMesas()" [disabled]="!todosLosFiltrosSeleccionados()">
+      Buscar Mesas
+    </button>
+
   </div>
 
-  <!-- Botón para cargar disponibilidad -->
-  <div style="text-align: center;">
-    <button class="btn-reservar" (click)="cargarMesas()" [disabled]="!todosLosFiltrosSeleccionados()">
-      Buscar disponibilidad
-    </button>
+  <!-- Mensaje de error -->
+  <div *ngIf="mensajeError" class="error-message" style="color: red; text-align: center; margin-top: 10px;">
+    {{ mensajeError }}
   </div>
+
 
   <!-- Mapa de mesas -->
   <div *ngIf="mesas.length > 0" class="mapa-container">
@@ -52,7 +64,8 @@
         <div>Zona: {{ mesa.zoneName }}</div>
         <div>Capacidad: {{ mesa.capacidad }}</div>
         <div>Estado: {{ mesa.estado }}</div>
-        <!-- Mostrar botón solo si está disponible -->
+
+        <!-- Botón si está disponible -->
         <button
           class="btn-reservar"
           *ngIf="mesa.estado === 'DISPONIBLE'"
@@ -61,7 +74,7 @@
           Empezar reserva
         </button>
 
-        <!-- Mostrar texto si está en estado reservándose -->
+        <!-- Texto si está reservándose -->
         <span *ngIf="mesa.estado === 'RESERVANDOSE'" class="estado-mesa">
           Reservándose...
         </span>
