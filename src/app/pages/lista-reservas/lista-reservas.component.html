@@ -38,7 +38,16 @@
         </div>
         <div class="hora">Hora: {{ r.horaInicio.slice(0, 5) }}</div>
       </div>
-      <div class="estado asistio">ASISTIÓ</div> <!-- temporal -->
+
+      <div class="estado" [ngClass]="{'asistio': r.stateReservationClient === 'ASISTIO' || esPasada(r.fechaReservada)}">
+        <ng-container *ngIf="r.stateReservationClient === 'ASISTIO' || esPasada(r.fechaReservada); else enEsperaBlock">
+          ASISTIÓ
+        </ng-container>
+        <ng-template #enEsperaBlock>
+          <span class="en-espera-text">EN ESPERA</span>
+          <button class="confirmar-btn" (click)="confirmAttendance(r.id)">Confirmar</button>
+        </ng-template>
+      </div>
     </div>
   </div>
 </main>
