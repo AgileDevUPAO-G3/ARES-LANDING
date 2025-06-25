@@ -14,6 +14,16 @@ export class DisponibilidadService {
   constructor(private http: HttpClient) {}
 
   consultarDisponibilidad(dto: Disponibilidad): Observable<Mesa[]> {
-    return this.http.post<Mesa[]>(`${this.baseUrl}/disponibilidad`, dto);
+    const params: any = {
+      fecha: dto.fecha,
+      hora: dto.hora
+    };
+
+    if ((dto as any).capacidad) {
+      params.capacidad = (dto as any).capacidad;
+    }
+
+    return this.http.get<Mesa[]>(`${this.baseUrl}/disponibilidad`, { params });
   }
+
 }
