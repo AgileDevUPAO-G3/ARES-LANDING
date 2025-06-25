@@ -6,4 +6,5 @@ export interface ReservationList {
   zone: string;
   fechaReservada: string;   // yyyy-MM-dd
   horaInicio: string;       // HH:mm:ss
+  stateReservationClient: 'EN_ESPERA' | 'ASISTIO' | 'NO_ASISTIO';
 }

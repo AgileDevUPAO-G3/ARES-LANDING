@@ -58,4 +58,10 @@ export class ReservationService {
   getAllReservationsForAdmin(): Observable<any[]> {
   return this.http.get<any[]>(`${this.baseUrl}/admin/reservations`);
 }
+
+// Confirmar asistencia de una reserva
+confirmAttendance(id: number): Observable<Reservation> {
+  return this.http.put<Reservation>(`${this.baseUrl}/${id}/confirm-attendance`, {});
+}
+
 }
