@@ -4,6 +4,8 @@ import {CartaComponent} from './pages/home/carta/carta.component';
 import {ReservasComponent} from './pages/reservas/reservas.component';
 import { RegistroReservasComponent } from './pages/registro-reservas/registro-reservas.component';
 import { ListaReservasComponent } from './pages/lista-reservas/lista-reservas.component';
+import { EstadoMesasComponent } from './pages/estado-mesas/estado-mesas.component';
+import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
 import {
   ReservaExitosaComponent
 } from './pages/registro-reservas/Reserva-estados/reserva-exitosa/reserva-exitosa.component';
@@ -21,11 +23,13 @@ export const routes: Routes = [
   {path: 'carta', component: CartaComponent},
   {path: 'reservas', component: ReservasComponent},
   { path: 'registro-reservas/:mesaId', component: RegistroReservasComponent },
-  {path: 'lista-reservas', component: ListaReservasComponent},
   { path: 'reserva-exitosa', component: ReservaExitosaComponent },
   { path: 'reserva-en-proceso', component: ReservaEnProcesoComponent },
   { path: 'reserva-error', component: ReservaErrorComponent },
   { path: 'boleta', component: BoletaComponent },
   { path: '', redirectTo: 'boleta', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent}
+  { path: 'login', component: LoginComponent},
+  { path: 'admin', component: AdminDashboardComponent},
+  { path: 'admin/lista-reservas', component: ListaReservasComponent},
+  { path: 'admin/estado-mesas', component: EstadoMesasComponent}
 ];

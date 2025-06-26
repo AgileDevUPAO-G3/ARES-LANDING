@@ -1,0 +1,28 @@
+.dashboard-container {
+  text-align: center;
+  padding: 40px;
+  background-color: #2D4647;
+  color: white;
+  min-height: 100vh;
+}
+
+.opciones-admin {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.opciones-admin button {
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #AD6D38;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.opciones-admin button:hover {
+  background-color: #a5472f;
+}
