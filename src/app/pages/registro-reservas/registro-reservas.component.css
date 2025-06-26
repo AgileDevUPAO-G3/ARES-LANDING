@@ -1,52 +1,60 @@
-.row{
-    background: #423e3e;
-    color: white;
+.row {
+  background: #423e3e;
+  color: white;
 }
-.col-6{
-    text-align: center;
+
+.col-6 {
+  text-align: center;
 }
 
 main {
-    /* min-height: 50vh; */
-    background: url('https://images.unsplash.com/photo-1682778418768-16081e4470a1?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9uZG8lMjBkZSUyMHJlc3RhdXJhbnRlfGVufDB8fDB8fHww') no-repeat center center fixed;
-    background-size: cover;
-    /* justify-content: center; */
-    /* align-items: center; */
+  /* min-height: 50vh; */
+  background: url('https://images.unsplash.com/photo-1682778418768-16081e4470a1?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9uZG8lMjBkZSUyMHJlc3RhdXJhbnRlfGVufDB8fDB8fHww') no-repeat center center fixed;
+  background-size: cover;
+  /* justify-content: center; */
+  /* align-items: center; */
 }
 
 .container {
-    width: 600px;
+  /* width: 600px;
     height: 450px;
     background: #222;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: white;
+    color: white; */
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  color: white;
 }
 
 form {
-    background: #222;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    width: 100%;
-    max-width: 420px;
-    padding: 20px;
-    box-sizing: border-box;
-    border-radius: 6px;
+  background: #222;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 6px;
 }
 
 form input:focus {
-    border-color: hsl(244, 96%, 47%);
-    outline: none;
+  border-color: hsl(134, 100%, 50%);
+  outline: none;
 }
 
 .form-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
 }
 
 select,
@@ -55,31 +63,31 @@ input[type="email"],
 input[type="tel"],
 input[type="date"],
 input[type="time"] {
-    padding: 5px 10px;
-    font-family: monospace;
-    font-size: 14px;
-    width: 160px;
-    cursor: pointer;
+  padding: 5px 10px;
+  font-family: monospace;
+  font-size: 14px;
+  width: 160px;
+  cursor: pointer;
 }
 
 button[type="submit"] {
-    width: 150px;
-    align-self: center;
-    background: #ccc;
-    color: #222;
-    border: none;
-    padding: 10px 0;
-    font-family: monospace;
-    font-size: 16px;
-    letter-spacing: 3px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background 0.3s ease;
-    margin-top: 20px;
+  width: 150px;
+  align-self: center;
+  background: #ccc;
+  color: #222;
+  border: none;
+  padding: 10px 0;
+  font-family: monospace;
+  font-size: 16px;
+  letter-spacing: 3px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+  margin-top: 20px;
 }
 
 button:hover {
-    background: #eee;
+  background: #eee;
 }
 
 /* Inputs readonly con fondo gris claro */
@@ -101,6 +109,7 @@ input.invalid {
   padding-bottom: 5px;
   font-weight: bold;
 }
+
 .etapa-inactiva {
   opacity: 0.6;
 }
@@ -127,25 +136,85 @@ input.invalid {
   padding: 30px;
   border-radius: 8px;
   text-align: center;
-  width: 300px;
+  width: 400px;
+  max-width: 90%;
 }
 
 .modal-content h3 {
   margin-bottom: 15px;
 }
 
-.modal-content button {
-  width: auto;
-  background: #28a745;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-family: monospace;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 4px;
+.modal-text {
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  color: #555;
 }
 
+.modal-actions {
+  display: flex;
+  justify-content: space-around;
+}
+
+.modal-actions button {
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-actions button:nth-child(1) {
+  background-color: #dc3545;
+  color: white;
+}
+
+.modal-actions button:nth-child(2) {
+  background-color: #28a745;
+  color: white;
+}
+
+/* Detalles del checkout */
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.card {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #d5d5d5;
+}
+
+.steps .step span {
+  font-weight: bold;
+}
+
+.payments .details {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+
+.checkout-btn {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.checkout-btn:hover {
+  background-color: #218838;
+}
+
+
+/*Tiempo que regresa a reservas*/
 .temporizador {
   font-weight: bold;
   font-size: 1.5rem;
