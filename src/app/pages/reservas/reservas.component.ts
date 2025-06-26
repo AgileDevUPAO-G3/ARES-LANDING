@@ -27,6 +27,8 @@ export class ReservasComponent implements OnInit {
   intervaloId: any = null;
   reservaIniciada: boolean = false;
 
+  mostrarLeyenda: boolean = false;
+
   opcionesPersonas: number[] = [2, 4, 5, 6, 10, 12];
   opcionesHoras: string[] = [
     '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
@@ -168,6 +170,7 @@ export class ReservasComponent implements OnInit {
             localStorage.removeItem('reservaEnProceso');
           }
         }
+        this.mostrarLeyenda = true;
       },
       error: (err) => {
         console.error('Error al cargar mesas:', err);

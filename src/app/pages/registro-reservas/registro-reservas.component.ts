@@ -32,7 +32,7 @@ export class RegistroReservasComponent implements OnInit {
   mostrarModal: boolean = false;
 
   // Temporizador
-  tiempoLimiteSegundos: number = 300; // 5 minutos (cambia a 30 para pruebas)
+  tiempoLimiteSegundos: number = 300000000000000000000000; // 5 minutos (cambia a 30 para pruebas) 300
   tiempoRestante: number = this.tiempoLimiteSegundos;
   intervaloId: any;
 
@@ -42,7 +42,7 @@ export class RegistroReservasComponent implements OnInit {
     private paymentService: PaymentService,
     private reservationService: ReservationService,
     private clientService: ClientService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.mesaId = Number(this.route.snapshot.paramMap.get('mesaId'));
@@ -53,6 +53,62 @@ export class RegistroReservasComponent implements OnInit {
 
     // Iniciar el temporizador cuando se cargue el componente
     this.iniciarTemporizador();
+  }
+
+  // Método para abrir el modal
+  abrirModal(): void {
+    this.mostrarModal = true;
+  }
+
+  // Método para cerrar el modal
+  cerrarModal(): void {
+    this.mostrarModal = false;
+  }
+
+  validarDNI(event: any): void {
+    const valor = event.target.value;
+    // Eliminar caracteres no numéricos
+    const soloNumeros = valor.replace(/\D/g, ''); // Reemplaza cualquier cosa que no sea un número
+
+    // Limitar a 8 dígitos
+    if (soloNumeros.length > 8) {
+      event.target.value = soloNumeros.slice(0, 8); // Limitar a 8 dígitos
+    } else {
+      event.target.value = soloNumeros; // Asignar solo números válidos
+    }
+
+    this.dniCliente = event.target.value; // Actualizar el ngModel
+  }
+
+  validarTelefono(event: any): void {
+    const valor = event.target.value;
+    // Reemplazar todo lo que no sea un número
+    const soloNumeros = valor.replace(/\D/g, ''); // Esto elimina cualquier cosa que no sea un número
+
+    // Limitar a 9 dígitos
+    if (soloNumeros.length > 9) {
+      event.target.value = soloNumeros.slice(0, 9); // Limitar a 9 dígitos
+    } else {
+      event.target.value = soloNumeros; // Asignar solo números válidos
+    }
+
+    this.telefonoCliente = event.target.value; // Actualizar el modelo ngModel
+  }
+
+  validarTexto(event: any): void {
+    const valor = event.target.value;
+
+    // Eliminar cualquier cosa que no sea letras o espacios
+    const soloLetrasYEspacios = valor.replace(/[^a-zA-ZÀ-ÿ\s]/g, ''); // Solo letras y espacios
+
+    event.target.value = soloLetrasYEspacios; // Asignar el valor validado
+
+    // Actualizar el ngModel
+    if (event.target.id === 'nombre') {
+      this.nombreCliente = soloLetrasYEspacios;
+    } else if (event.target.id === 'apellido') {
+      this.apellidoCliente = soloLetrasYEspacios;
+    }
   }
 
   ngOnDestroy(): void {
@@ -82,7 +138,7 @@ export class RegistroReservasComponent implements OnInit {
   get tiempoFormateado(): string {
     const minutos = Math.floor(this.tiempoRestante / 60);
     const segundos = this.tiempoRestante % 60;
-    return `${minutos.toString().padStart(2,'0')}:${segundos.toString().padStart(2,'0')}`;
+    return `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
   }
 
   onSubmit(): void {
