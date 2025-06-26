@@ -114,19 +114,6 @@ export class ReservasComponent implements OnInit {
   cargarMesas(actualizarUrl: boolean = true): void {
     this.mensajeError = '';
 
-    if (!this.fecha && !this.hora) {
-      this.mensajeError = 'Selecciona una fecha y hora para ver el mapa con las reservas';
-      return;
-    }
-    if (!this.fecha) {
-      this.mensajeError = 'Por favor selecciona una fecha para ver el mapa con las reservas';
-      return;
-    }
-    if (!this.hora) {
-      this.mensajeError = 'Por favor selecciona una hora para ver el mapa con las reservas';
-      return;
-    }
-
     if (this.esHoy()) {
       const ahora = new Date();
       ahora.setHours(ahora.getHours() + 3);

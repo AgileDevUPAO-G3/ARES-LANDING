@@ -30,15 +30,11 @@
       </option>
     </select>
 
+
     <!-- Fecha -->
-    <input
-      type="date"
-      [(ngModel)]="fecha"
-      class="filtro-input"
-      [min]="fechaMinima"
-      [max]="fechaMaxima"
-      placeholder="Fecha"
-    />
+    <input type="date" [(ngModel)]="fecha" class="filtro-input" [min]="fechaMinima" [max]="fechaMaxima"
+      placeholder="Fecha" />
+
 
     <!-- Hora -->
     <select [(ngModel)]="hora" class="filtro-input">
@@ -48,13 +44,25 @@
       </option>
     </select>
 
-    <button
-      class="btn-reservar"
-      (click)="cargarMesas()"
-      [disabled]="!todosLosFiltrosSeleccionados()"
-    >
+    <button class="btn-reservar" (click)="cargarMesas()" [disabled]="!todosLosFiltrosSeleccionados()">
       <span>Buscar Mesas</span>
     </button>
+
+  </div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="mensajeError" class="error-message" style="color: red; text-align: center; margin-top: 10px;">
+    {{ mensajeError }}
+  </div>
+
+  <!-- Leyenda de estados de mesa -->
+  <div *ngIf="mostrarLeyenda" class="leyenda">
+    <div class="leyenda-titulo">
+      <i>Leyenda</i> <!-- Título en itálica -->
+    </div>
+    <div class="estado-leyenda disponible">Disponible</div>
+    <div class="estado-leyenda reservando">Reservándose</div>
+    <div class="estado-leyenda ocupado">Ocupado</div>
   </div>
 
   <!-- Leyenda de estados de mesa -->
@@ -71,20 +79,18 @@
   <div *ngIf="mesas.length > 0" class="mapa-container">
     <img src="/mesas/mesas.png" alt="Mapa de mesas" />
 
-    <div
-      *ngFor="let mesa of mesas"
-      class="mesa-overlay"
-      [ngClass]="{ 'mesa-disponible': mesa.estado === 'DISPONIBLE' }"
+    <div *ngFor="let mesa of mesas" class="mesa-overlay" [ngClass]="{ 'mesa-disponible': mesa.estado === 'DISPONIBLE' }"
       [ngStyle]="{
         top: posicionesMesa[mesa.numeroMesa].top,
         left: posicionesMesa[mesa.numeroMesa].left,
         width: posicionesMesa[mesa.numeroMesa].width,
         height: posicionesMesa[mesa.numeroMesa].height,
         backgroundColor: mesa.estado === 'DISPONIBLE'
-          ? 'rgba(0,255,0,0.2)'
-          : mesa.estado === 'RESERVADO'
-          ? 'rgba(255,0,0,0.3)'
-          : mesa.estado === 'RESERVANDOSE'
+         ? 'rgba(0,255,0,0.2)'
+        : mesa.estado === 'RESERVADO'
+        ? 'rgba(255,0,0,0.3)'
+        : (mesa.estado === 'RESERVANDOSE' || mesa.estado === 'PENDIENTE')
+
           ? 'rgba(255,255,0,0.3)'
           : 'rgba(200,200,200,0.3)'
       }"
@@ -96,11 +102,7 @@
         <div>Estado: {{ mesa.estado }}</div>
 
         <!-- Botón si está disponible -->
-        <button
-          class="btn-reservar"
-          *ngIf="mesa.estado === 'DISPONIBLE'"
-          (click)="empezarReserva(mesa)"
-        >
+        <button class="btn-reservar" *ngIf="mesa.estado === 'DISPONIBLE'" (click)="empezarReserva(mesa)">
           <span>Empezar reserva</span>
         </button>
 
