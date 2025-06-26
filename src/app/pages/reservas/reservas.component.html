@@ -34,7 +34,7 @@
     <div
       *ngFor="let mesa of mesas"
       class="mesa-overlay"
-      [ngClass]="{ 'mesa-disponible': mesa.estado === 'DISPONIBLE' }"
+      [ngClass]="{ 'mesa-disponible': mesa.estado === 'DISPONIBLE' || mesa.estado === 'INHABILITADO' }"
       [ngStyle]="{
         top: posicionesMesa[mesa.numeroMesa].top,
         left: posicionesMesa[mesa.numeroMesa].left,
@@ -42,7 +42,7 @@
         height: posicionesMesa[mesa.numeroMesa].height,
         backgroundColor: mesa.estado === 'DISPONIBLE'
           ? 'rgba(0,255,0,0.2)'
-          : mesa.estado === 'RESERVADO'
+          : mesa.estado === 'RESERVADO' || mesa.estado === 'INHABILITADO'
           ? 'rgba(255,0,0,0.3)'
           : 'rgba(255,255,0,0.3)'
       }"

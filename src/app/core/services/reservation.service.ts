@@ -55,8 +55,9 @@ export class ReservationService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
+// Obtener reservas por usuario
   getAllReservationsForAdmin(): Observable<any[]> {
-  return this.http.get<any[]>(`${this.baseUrl}/admin/reservations`);
+  return this.http.get<any[]>(`${this.baseUrl}/admin/reservations`, { withCredentials: true });
 }
 
 // Confirmar asistencia de una reserva
