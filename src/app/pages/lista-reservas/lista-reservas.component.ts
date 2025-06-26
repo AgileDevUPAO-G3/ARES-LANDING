@@ -2,16 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReservationService } from '../../core/services/reservation.service';
 import { ReservationList } from '../../shared/models/reservation-list.model';
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-lista-reservas',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './lista-reservas.component.html',
   styleUrls: ['./lista-reservas.component.css']
 })
 export class ListaReservasComponent implements OnInit {
   reservas: ReservationList[] = [];
+  filtro: string = '';
 
   constructor(private reservationService: ReservationService) {}
 
@@ -21,8 +24,20 @@ export class ListaReservasComponent implements OnInit {
 
   loadReservations(): void {
     this.reservationService.getReservationList().subscribe({
-      next: (data) => this.reservas = data,
+      next: (data) => {
+        const hoy = new Date().toISOString().slice(0, 10); // yyyy-MM-dd
+        this.reservas = data.filter(r => r.fechaReservada === hoy);
+      },
       error: (err) => console.error('❌ Error al cargar reservas:', err)
+    });
+  }
+
+  buscarReservas(): void {
+    if (!this.filtro.trim()) return;
+
+    this.reservationService.searchReservations(this.filtro).subscribe({
+      next: (data) => this.reservas = data,
+      error: (err) => console.error('❌ Error al buscar reservas:', err)
     });
   }
 
