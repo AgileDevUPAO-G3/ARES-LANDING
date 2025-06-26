@@ -6,6 +6,11 @@
       </div>
     </div>
   </div>
+  <div class="busqueda-reserva">
+    <input type="text" [(ngModel)]="filtro" placeholder="Buscar por nombre o DNI..." />
+    <button (click)="buscarReservas()">Buscar</button>
+    <button (click)="loadReservations()">Limpiar</button>
+  </div>
 
   <div class="container-fluid listas">
     <div class="reserva" *ngFor="let r of reservas">
@@ -39,15 +44,23 @@
         <div class="hora">Hora: {{ r.horaInicio.slice(0, 5) }}</div>
       </div>
 
-      <div class="estado" [ngClass]="{'asistio': r.stateReservationClient === 'ASISTIO' || esPasada(r.fechaReservada)}">
-        <ng-container *ngIf="r.stateReservationClient === 'ASISTIO' || esPasada(r.fechaReservada); else enEsperaBlock">
-          ASISTIÓ
+      <div class="estado"
+           [ngClass]="{
+       'asistio': r.stateReservationClient === 'ASISTIO',
+       'no-asistio': r.stateReservationClient === 'NO_ASISTIO'
+     }">
+
+        <ng-container [ngSwitch]="r.stateReservationClient">
+          <div *ngSwitchCase="'ASISTIO'">ASISTIÓ</div>
+          <div *ngSwitchCase="'NO_ASISTIO'">NO ASISTIÓ</div>
+          <ng-container *ngSwitchDefault>
+            <span class="en-espera-text">EN ESPERA</span>
+            <button class="confirmar-btn" (click)="confirmAttendance(r.id)">Confirmar</button>
+          </ng-container>
         </ng-container>
-        <ng-template #enEsperaBlock>
-          <span class="en-espera-text">EN ESPERA</span>
-          <button class="confirmar-btn" (click)="confirmAttendance(r.id)">Confirmar</button>
-        </ng-template>
+
       </div>
+
     </div>
   </div>
 </main>

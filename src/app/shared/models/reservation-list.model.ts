@@ -1,6 +1,7 @@
 export interface ReservationList {
   id: number;
   nombreCliente: string;
+  dniCliente: string;  // ← Nuevo campo agregado
   numeroMesa: number;
   capacidad: number;
   zone: string;

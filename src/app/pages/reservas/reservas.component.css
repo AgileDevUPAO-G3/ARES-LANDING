@@ -1,5 +1,5 @@
 .reserva-container {
-  padding: 2vw;
+  /* padding: 2vw; */
   min-height: 100vh;
   display: flex;
 
@@ -44,13 +44,18 @@
 
 .mapa-container {
   position: relative;
+  width: 90%; /* Ajusta el tamaño de la imagen al 80% del contenedor */
+  max-width: 1000px; /* Define un tamaño máximo para la imagen */
+  margin: 0 auto; /* Centra la imagen */
+  height: auto; /* Permite que la imagen tenga una altura proporcional */
 }
 
 .mapa-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* O 'contain' si no quieres que se recorte */
+  width: 100%; /* Ajusta la imagen al 100% del contenedor */
+  height: auto; /* Mantiene la relación de aspecto de la imagen */
+  object-fit: contain; /* Hace que la imagen se ajuste dentro del contenedor sin recortarse */
   display: block;
+  border-radius: 8px; /* Bordes redondeados para la imagen */
 }
 
 /* Las áreas interactivas AQUII SE MOVIOOOOOO */
@@ -191,4 +196,132 @@ button:hover span {
 button:hover span:after {
   opacity: 1;
   right: 0;
+}
+
+/* Leyenda */
+.leyenda {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; 
+  position: absolute;
+  top: 210px;              
+  right: 450px; 
+  gap: 10px;
+  padding: 10px;
+  /* background-color: #f8f9fa;   */
+  border: 2px solid #ffffff;
+  border-radius: 10px;
+  z-index: 10;
+  width: 200px;
+
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6), 0 1px 3px rgba(0, 0, 0, 0.2);  /* Sombra sutil */
+}
+
+.leyenda-titulo {
+  font-size: 1.3rem;
+  font-style: italic;        
+  margin-bottom: 5px;     
+  font-weight: bold;    
+}
+
+.estado-leyenda {
+  font-size: 1rem;
+  padding: 8px;
+  border-radius: 5px;
+  color: white;
+  text-align: center;
+}
+
+.estado-leyenda.disponible {
+  background-color: #28a745; /* Verde */
+}
+
+.estado-leyenda.reservando {
+  background-color: #ffc107; /* Amarillo */
+}
+
+.estado-leyenda.ocupado {
+  background-color: #dc3545; /* Rojo */
+}
+
+@media (max-width: 768px) {
+  /* Ajustes para la leyenda */
+  .leyenda {
+    width: 90px;  /* Reducimos el ancho en pantallas pequeñas */
+    right: 10px;   /* Ajustamos la distancia desde el borde derecho */
+    top: 440px;    /* Ajustamos la distancia desde el borde superior */
+  }
+
+  .leyenda-titulo {
+    font-size: 0.7rem;  /* Ajuste del tamaño de la fuente */
+  }
+
+  .estado-leyenda {
+    font-size: 0.4rem;  /* Reducimos el tamaño de la fuente */
+    padding: 1px;       /* Reducimos el padding */
+  }
+}
+
+/* Media Query para pantallas aún más pequeñas (por debajo de 480px) */
+@media (max-width: 480px) {
+  /* Ajustes para la leyenda */
+  .leyenda {
+    width: 90px;  /* Reducimos aún más el ancho */
+    right: 50px;    /* Ajustamos la distancia desde el borde derecho */
+    top: 440px;    /* Ajustamos la distancia desde el borde superior */
+  }
+
+  .leyenda-titulo {
+    display: none;
+  }
+
+  .estado-leyenda {
+    font-size: 0.4rem; /* Reducción adicional en el tamaño de la fuente */
+  }
+}
+
+/* Responsividad para los filtros */
+.filtros {
+  display: flex;
+  flex-wrap: wrap;         /* Permite que los filtros se acomoden en varias líneas */
+  justify-content: center; /* Centra los filtros */
+  gap: 1rem;               /* Ajustamos el espacio entre los inputs/selects */
+  background-color: #252525;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1rem;
+}
+
+.filtro-input {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  min-width: 180px;
+  background-color: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px; /* Agregamos espacio inferior para mejorar la separación en pantallas pequeñas */
+}
+
+.filtro-input:focus {
+  border-color: #ff9800;
+  outline: none;
+}
+
+/* Media Query para pantallas pequeñas (por debajo de 768px) */
+@media (max-width: 768px) {
+  .filtros {
+    flex-direction: column; /* Cambiar a una disposición vertical en pantallas pequeñas */
+    align-items: center;     /* Centrar los elementos */
+  }
+
+  .filtro-input {
+    min-width: 150px;        /* Ajustamos el tamaño mínimo de los inputs/selects */
+    margin-bottom: 1rem;     /* Espacio entre los elementos */
+  }
+
+  button {
+    width: 100%;             /* Hacer el botón de búsqueda a pantalla completa */
+  }
+
 }
