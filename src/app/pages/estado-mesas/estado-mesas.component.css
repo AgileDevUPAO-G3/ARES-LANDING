@@ -1,0 +1,47 @@
+.estado-mesas-container {
+  padding: 40px;
+  background-color: #2D4647;
+  color: white;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.estado-mesas-table {
+  width: 100%;
+  margin-top: 30px;
+  border-collapse: collapse;
+  background-color: white;
+  color: black;
+}
+
+.estado-mesas-table th,
+.estado-mesas-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.estado-mesas-table th {
+  background-color: #AD6D38;
+  color: white;
+}
+
+select {
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+button {
+  margin-left: 10px;
+  padding: 6px 12px;
+  background-color: #AD6D38;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #a5472f;
+}
