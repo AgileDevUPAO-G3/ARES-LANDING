@@ -151,3 +151,11 @@
   padding: 0.5rem 1rem;
   cursor: pointer;
 }
+
+.estado.no-asistio {
+  color: white;
+  background-color: #d9534f; /* rojo */
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+}
