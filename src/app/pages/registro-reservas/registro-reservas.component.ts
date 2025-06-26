@@ -32,7 +32,7 @@ export class RegistroReservasComponent implements OnInit {
   mostrarModal: boolean = false;
 
   // Temporizador
-  tiempoLimiteSegundos: number = 600; // 10 minutos (cambia a 30 para pruebas)
+  tiempoLimiteSegundos: number = 300; // 5 minutos (cambia a 30 para pruebas)
   tiempoRestante: number = this.tiempoLimiteSegundos;
   intervaloId: any;
 

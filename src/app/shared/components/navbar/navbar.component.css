@@ -5,7 +5,7 @@
 }
 
 .img-logo img {
-    max-width: 180px; /* Limitar el tamaño máximo del logo */
+    max-width: 110px; /* Limitar el tamaño máximo del logo */
     height: auto; /* Mantener la proporción del logo */
     transition: transform 0.3s ease-in-out;
 }
@@ -16,7 +16,7 @@
 
 .navbar-nav .nav-link {
     font-family: "Playwrite DK Loopet", cursive;
-    font-size: 1.2rem;
+    font-size: 1rem;
     padding: 10px 20px;
     color: #FFFFFF;
     transition: color 0.3s ease, transform 0.3s ease;
