@@ -24,7 +24,10 @@ export class ListaReservasComponent implements OnInit {
 
   loadReservations(): void {
     this.reservationService.getReservationList().subscribe({
-      next: (data) => this.reservas = data,
+      next: (data) => {
+        const hoy = new Date().toISOString().slice(0, 10); // yyyy-MM-dd
+        this.reservas = data.filter(r => r.fechaReservada === hoy);
+      },
       error: (err) => console.error('❌ Error al cargar reservas:', err)
     });
   }
