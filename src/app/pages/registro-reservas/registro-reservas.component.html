@@ -24,69 +24,110 @@
     <form *ngIf="etapaActual === 'registro'" (ngSubmit)="onSubmit()" #reservationForm="ngForm" novalidate>
       <div class="form-row">
         <label for="dni">DNI</label>
-          <input type="text" id="dni" name="dni" required maxlength="8" pattern="^[0-9]{8}$" [(ngModel)]="dniCliente"
-            #dniCtrl="ngModel" [class.invalid]="dniCtrl.invalid && dniCtrl.touched" placeholder="Solo 8 números"
-            (blur)="buscarCliente()" />
+        <input type="text" id="dni" name="dni" required maxlength="8" pattern="^[0-9]{8}$" [(ngModel)]="dniCliente"
+          #dniCtrl="ngModel" [class.invalid]="dniCtrl.invalid && dniCtrl.touched" placeholder="Solo 8 números"
+          (input)="validarDNI($event)" (blur)="buscarCliente()" />
       </div>
 
       <div class="form-row">
         <label for="fecha">Fecha</label>
-          <input type="date" id="fecha" name="fecha" [(ngModel)]="fecha" [readonly]="true" class="readonly-input" />
+        <input type="date" id="fecha" name="fecha" [(ngModel)]="fecha" [readonly]="true" class="readonly-input" />
       </div>
 
       <div class="form-row">
         <label for="hora">Hora</label>
-          <input type="time" id="hora" name="hora" [(ngModel)]="hora" [readonly]="true" class="readonly-input" />
+        <input type="time" id="hora" name="hora" [(ngModel)]="hora" [readonly]="true" class="readonly-input" />
       </div>
 
       <div class="form-row">
         <label for="nombre">Nombre</label>
-          <input type="text" id="nombre" name="nombre" required pattern="^[a-zA-ZÀ-ÿ\\s]+$" [(ngModel)]="nombreCliente"
-            #nombreCtrl="ngModel" [class.invalid]="nombreCtrl.invalid && nombreCtrl.touched"
-            placeholder="Solo letras" />
+        <input type="text" id="nombre" name="nombre" required pattern="^[a-zA-ZÀ-ÿ\\s]+$" [(ngModel)]="nombreCliente"
+          #nombreCtrl="ngModel" [class.invalid]="nombreCtrl.invalid && nombreCtrl.touched" placeholder="Solo letras"
+          (input)="validarTexto($event)" />
       </div>
 
       <div class="form-row">
         <label for="apellido">Apellido</label>
-          <input type="text" id="apellido" name="apellido" required pattern="^[a-zA-ZÀ-ÿ\\s]+$"
-            [(ngModel)]="apellidoCliente" #apellidoCtrl="ngModel"
-            [class.invalid]="apellidoCtrl.invalid && apellidoCtrl.touched" placeholder="Solo letras" />
+        <input type="text" id="apellido" name="apellido" required pattern="^[a-zA-ZÀ-ÿ\\s]+$"
+          [(ngModel)]="apellidoCliente" #apellidoCtrl="ngModel"
+          [class.invalid]="apellidoCtrl.invalid && apellidoCtrl.touched" placeholder="Solo letras"
+          (input)="validarTexto($event)" />
       </div>
 
       <div class="form-row">
         <label for="telefono">Teléfono</label>
-          <input type="tel" id="telefono" name="telefono" required maxlength="9" pattern="^[0-9]{7,9}$"
-            placeholder="Solo números" [(ngModel)]="telefonoCliente" #telefonoCtrl="ngModel"
-            [class.invalid]="telefonoCtrl.invalid && telefonoCtrl.touched" />
+        <input type="tel" id="telefono" name="telefono" required maxlength="9" pattern="^[0-9]{7,9}$"
+          placeholder="Solo números" [(ngModel)]="telefonoCliente" #telefonoCtrl="ngModel"
+          [class.invalid]="telefonoCtrl.invalid && telefonoCtrl.touched" (input)="validarTelefono($event)" />
       </div>
 
       <div class="form-row">
         <label for="email">Email</label>
-          <input type="email" id="email" name="email" required [(ngModel)]="emailCliente" #emailCtrl="ngModel"
-            [class.invalid]="emailCtrl.invalid && emailCtrl.touched" placeholder="email@ejemplo.com" />
+        <input type="email" id="email" name="email" required [(ngModel)]="emailCliente" #emailCtrl="ngModel"
+          [class.invalid]="emailCtrl.invalid && emailCtrl.touched" placeholder="email@ejemplo.com" />
       </div>
 
-      <button type="submit" [disabled]="reservationForm.invalid">Ir a pagar</button>
+      <button type="submit" [disabled]="reservationForm.invalid" (click)="abrirModal()">Ir a pagar</button>
     </form>
+
+    <!-- Modal de Pago -->
+    <div *ngIf="mostrarModal" class="modal-overlay">
+      <div class="modal-content">
+        <h3>Términos y Condiciones</h3>
+        <p class="modal-text">
+          <i>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec dictum nulla. Aenean et eros sed eros
+            blandit dignissim. Phasellus sed suscipit nunc. Ut id dolor ac odio tincidunt eleifend. Quisque ut venenatis
+            orci. Nam auctor eu justo non lacinia. Cras nec turpis et neque faucibus bibendum. Vivamus a nisl metus.
+            Proin ullamcorper ut augue et varius.</i>
+        </p>
+        <div class="modal-actions">
+          <button (click)="cerrarModal()">Aceptar</button>
+        </div>
+      </div>
+    </div>
 
     <!-- FORMULARIO: PAGO -->
     <div *ngIf="etapaActual === 'pago'">
-      <p><strong>Confirmar pago de la reserva para:</strong></p>
-      <ul>
-        <li>{{ nombreCliente }} {{ apellidoCliente }}</li>
-        <li>{{ emailCliente }}</li>
-        <li>Mesa Nº {{ mesaId }}</li>
-        <li>Fecha: {{ fecha }}</li>
-        <li>Hora: {{ hora }}</li>
-        <li>Monto: S/ 50.00</li>
-      </ul>
-      <button (click)="iniciarPago()">Pagar con Mercado Pago</button>
-      <button class="btn btn-secondary mt-2" (click)="etapaActual = 'registro'">← Volver a editar</button>
+      <div class="card">
+        <label class="title">CHECKOUT</label>
+        <div class="steps">
+          <div class="step">
+            <div>
+              <span>Reserva para:</span>
+              <p>{{ nombreCliente }} {{ apellidoCliente }}</p>
+              <p>{{ emailCliente }}</p>
+            </div>
+            <hr>
+            <div>
+              <p><strong>Mesa</strong> Nº {{ mesaId }}</p>
+            </div>
+            <hr>
+            <div>
+              <span>Fecha:</span>
+              <p>{{ fecha }}</p>
+            </div>
+            <div>
+              <span>Hora:</span>
+              <p>{{ hora }}</p>
+            </div>
+            <hr>
+            <div class="payments">
+              <span>Pago</span>
+              <div class="details">
+                <span>Monto:</span>
+                <span>S/ 50.00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <!-- NUEVO BOTÓN PARA CONFIRMAR MANUALMENTE -->
-      <button class="btn btn-success mt-2" (click)="confirmarManual()">Aceptar Pago Manualmente</button>
-
+      <div class="card checkout">
+        <div class="footer">
+          <button class="checkout-btn" (click)="iniciarPago()">Pagar con Mercado Pago</button>
+          <button class="btn btn-secondary mt-2" (click)="etapaActual = 'registro'">← Volver a editar</button>
+        </div>
+      </div>
     </div>
   </div>
-
 </main>

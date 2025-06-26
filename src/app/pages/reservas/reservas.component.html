@@ -1,50 +1,65 @@
 <section class="reserva-container">
   <!-- Filtros -->
   <div class="filtros">
-
     <!-- Personas -->
     <select [(ngModel)]="personas" class="filtro-input">
-      <option value="" disabled selected>Personas</option>
-      <option *ngFor="let p of opcionesPersonas" [value]="p">
+      <option [ngValue]="null" selected>Todos</option>
+      <option *ngFor="let p of opcionesPersonas" [ngValue]="p">
         {{ p }} persona{{ p > 1 ? 's' : '' }}
       </option>
     </select>
 
+
     <!-- Fecha -->
-    <input type="date" [(ngModel)]="fecha" class="filtro-input" [min]="fechaMinima" placeholder="Fecha" />
+    <input type="date" [(ngModel)]="fecha" class="filtro-input" [min]="fechaMinima" [max]="fechaMaxima"
+      placeholder="Fecha" />
 
     <!-- Hora -->
     <select [(ngModel)]="hora" class="filtro-input">
       <option value="" disabled selected>Hora</option>
-      <option *ngFor="let h of opcionesHoras" [value]="h">{{ h }}</option>
+      <option *ngFor="let h of opcionesHorasFiltradas()" [value]="h">
+        {{ h }}
+      </option>
     </select>
+
+    <button class="btn-reservar" (click)="cargarMesas()" [disabled]="!todosLosFiltrosSeleccionados()">
+      <span>Buscar Mesas</span>
+    </button>
+
   </div>
 
-  <!-- Botón para cargar disponibilidad -->
-  <div style="text-align: center;">
-    <button class="btn-reservar" (click)="cargarMesas()" [disabled]="!todosLosFiltrosSeleccionados()">
-      Buscar disponibilidad
-    </button>
+  <!-- Mensaje de error -->
+  <div *ngIf="mensajeError" class="error-message" style="color: red; text-align: center; margin-top: 10px;">
+    {{ mensajeError }}
+  </div>
+
+  <!-- Leyenda de estados de mesa -->
+  <div *ngIf="mostrarLeyenda" class="leyenda">
+    <div class="leyenda-titulo">
+      <i>Leyenda</i> <!-- Título en itálica -->
+    </div>
+    <div class="estado-leyenda disponible">Disponible</div>
+    <div class="estado-leyenda reservando">Reservándose</div>
+    <div class="estado-leyenda ocupado">Ocupado</div>
   </div>
 
   <!-- Mapa de mesas -->
   <div *ngIf="mesas.length > 0" class="mapa-container">
     <img src="/mesas/mesas.png" alt="Mapa de mesas" />
 
-    <div
-      *ngFor="let mesa of mesas"
-      class="mesa-overlay"
-      [ngClass]="{ 'mesa-disponible': mesa.estado === 'DISPONIBLE' }"
+    <div *ngFor="let mesa of mesas" class="mesa-overlay" [ngClass]="{ 'mesa-disponible': mesa.estado === 'DISPONIBLE' }"
       [ngStyle]="{
         top: posicionesMesa[mesa.numeroMesa].top,
         left: posicionesMesa[mesa.numeroMesa].left,
         width: posicionesMesa[mesa.numeroMesa].width,
         height: posicionesMesa[mesa.numeroMesa].height,
         backgroundColor: mesa.estado === 'DISPONIBLE'
-          ? 'rgba(0,255,0,0.2)'
-          : mesa.estado === 'RESERVADO'
-          ? 'rgba(255,0,0,0.3)'
-          : 'rgba(255,255,0,0.3)'
+         ? 'rgba(0,255,0,0.2)'
+        : mesa.estado === 'RESERVADO'
+        ? 'rgba(255,0,0,0.3)'
+        : (mesa.estado === 'RESERVANDOSE' || mesa.estado === 'PENDIENTE')
+          ? 'rgba(255,255,0,0.3)'
+          : 'rgba(200,200,200,0.3)'
       }"
     >
       <div class="tooltip">
@@ -52,16 +67,13 @@
         <div>Zona: {{ mesa.zoneName }}</div>
         <div>Capacidad: {{ mesa.capacidad }}</div>
         <div>Estado: {{ mesa.estado }}</div>
-        <!-- Mostrar botón solo si está disponible -->
-        <button
-          class="btn-reservar"
-          *ngIf="mesa.estado === 'DISPONIBLE'"
-          (click)="empezarReserva(mesa)"
-        >
-          Empezar reserva
+
+        <!-- Botón si está disponible -->
+        <button class="btn-reservar" *ngIf="mesa.estado === 'DISPONIBLE'" (click)="empezarReserva(mesa)">
+          <span>Empezar reserva</span>
         </button>
 
-        <!-- Mostrar texto si está en estado reservándose -->
+        <!-- Texto si está reservándose -->
         <span *ngIf="mesa.estado === 'RESERVANDOSE'" class="estado-mesa">
           Reservándose...
         </span>

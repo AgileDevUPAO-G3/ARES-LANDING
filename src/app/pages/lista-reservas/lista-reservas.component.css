@@ -133,3 +133,29 @@
     background-color: #f00a0a;
     color: #550000;
 }
+
+.busqueda-reserva {
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.busqueda-reserva input {
+  flex: 1;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.busqueda-reserva button {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.estado.no-asistio {
+  color: white;
+  background-color: #d9534f; /* rojo */
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+}

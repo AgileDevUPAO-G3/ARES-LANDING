@@ -20,17 +20,21 @@ export class ReservasComponent implements OnInit {
   hora: string = '';
   mesas: Mesa[] = [];
 
+  mensajeError: string = '';
+
   tiempoLimiteSegundos: number = 600;
   tiempoRestante: number = 0;
   intervaloId: any = null;
   reservaIniciada: boolean = false;
+
+  mostrarLeyenda: boolean = false;
 
   opcionesPersonas: number[] = [2, 4, 5, 6, 10, 12];
   opcionesHoras: string[] = [
     '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
     '15:00', '15:30', '16:00', '16:30', '17:00', '17:30',
     '18:00', '18:30', '19:00', '19:30', '20:00', '20:30',
-    '21:00', '21:30', '22:00', '22:30', '23:00'
+    '21:00', '21:30', '22:00'
   ];
 
   posicionesMesa: { [key: number]: { top: string, left: string, width: string, height: string } } = {
@@ -69,7 +73,7 @@ export class ReservasComponent implements OnInit {
       if (params['capacidad']) this.personas = Number(params['capacidad']);
 
       if (this.fecha && this.hora) {
-        this.cargarMesas(false); // false = no actualizar URL (ya viene con filtros)
+        this.cargarMesas(false);
       }
     });
   }
@@ -78,11 +82,51 @@ export class ReservasComponent implements OnInit {
     return new Date().toISOString().split('T')[0];
   }
 
+  get fechaMaxima(): string {
+    const hoy = new Date();
+    const max = new Date(hoy);
+    max.setDate(hoy.getDate() + 4);
+    return max.toISOString().split('T')[0];
+  }
+
+  esHoy(): boolean {
+    return this.fecha === new Date().toISOString().split('T')[0];
+  }
+
+  opcionesHorasFiltradas(): string[] {
+    if (!this.esHoy()) return this.opcionesHoras;
+
+    const ahora = new Date();
+    ahora.setHours(ahora.getHours() + 3);
+
+    return this.opcionesHoras.filter(horaStr => {
+      const [h, m] = horaStr.split(':').map(Number);
+      const horaDate = new Date();
+      horaDate.setHours(h, m, 0, 0);
+      return horaDate >= ahora;
+    });
+  }
+
   todosLosFiltrosSeleccionados(): boolean {
     return this.fecha !== '' && this.hora !== '';
   }
 
   cargarMesas(actualizarUrl: boolean = true): void {
+    this.mensajeError = '';
+
+    if (this.esHoy()) {
+      const ahora = new Date();
+      ahora.setHours(ahora.getHours() + 3);
+      const [h, m] = this.hora.split(':').map(Number);
+      const horaSeleccionada = new Date();
+      horaSeleccionada.setHours(h, m, 0, 0);
+
+      if (horaSeleccionada < ahora) {
+        this.mensajeError = 'Debes reservar con al menos 3 horas de anticipación';
+        return;
+      }
+    }
+
     const payload: Disponibilidad = {
       fecha: this.fecha,
       hora: this.hora,
@@ -126,6 +170,7 @@ export class ReservasComponent implements OnInit {
             localStorage.removeItem('reservaEnProceso');
           }
         }
+        this.mostrarLeyenda = true;
       },
       error: (err) => {
         console.error('Error al cargar mesas:', err);
