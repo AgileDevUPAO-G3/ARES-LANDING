@@ -1,0 +1,31 @@
+<div class="estado-mesas-container">
+  <h2>Gestión de Estado de Mesas</h2>
+
+  <table class="estado-mesas-table">
+    <thead>
+      <tr>
+        <th>Número</th>
+        <th>Zona</th>
+        <th>Capacidad</th>
+        <th>Estado actual</th>
+        <th>Cambiar estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let mesa of mesas">
+        <td>{{ mesa.numeroMesa }}</td>
+        <td>{{ mesa.zoneName }}</td>
+        <td>{{ mesa.capacidad }}</td>
+        <td>{{ mesa.estado }}</td>
+        <td>
+          <select [(ngModel)]="mesa.estado">
+            <option *ngFor="let estado of estadosDisponibles" [value]="estado">
+              {{ estado }}
+            </option>
+          </select>
+          <button (click)="cambiarEstado(mesa)">Cambiar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
