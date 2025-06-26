@@ -13,6 +13,11 @@ export class MesaService {
   constructor(private http: HttpClient) {}
 
   getMesas(): Observable<Mesa[]> {
-    return this.http.get<Mesa[]>(`${this.baseUrl}/tables`);
+    return this.http.get<Mesa[]>(`${this.baseUrl}/tables`, {withCredentials: true});
   }
+
+  actualizarEstadoMesa(id: number, nuevoEstado: string): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/tables/${id}/estado`, { nuevoEstado }, {withCredentials: true});
+  }
+
 }

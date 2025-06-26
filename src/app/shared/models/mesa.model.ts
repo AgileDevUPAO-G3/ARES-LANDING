@@ -2,6 +2,6 @@
 export interface Mesa {
   numeroMesa: number;
   capacidad: number;
-  estado: 'DISPONIBLE' | 'RESERVADO' | 'RESERVANDOSE';
+  estado: 'DISPONIBLE' | 'RESERVADO' | 'RESERVANDOSE' | 'INHABILITADO';
   zoneName: 'General' | 'Privada' | 'Ejecutiva';
 }
