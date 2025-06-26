@@ -22,7 +22,7 @@ export class LoginComponent {
     this.authService.login(this.username, this.password).subscribe({
       next: (user) => {
         if (user.role === 'ADMIN') {
-          this.router.navigate(['/lista-reservas']);
+          this.router.navigate(['/admin']);
         } else {
           this.error = 'Acceso restringido al administrador';
         }
