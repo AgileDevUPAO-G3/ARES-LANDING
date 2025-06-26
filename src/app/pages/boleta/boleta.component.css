@@ -1,0 +1,72 @@
+.boleta-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.boleta-card {
+  background-color: #fefefe;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 30px;
+  max-width: 600px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.section {
+  margin-top: 20px;
+}
+
+.section h3 {
+  margin-bottom: 10px;
+  color: #34495e;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
+}
+
+p {
+  margin: 4px 0;
+}
+
+.monto {
+  font-weight: bold;
+  color: #27ae60;
+}
+
+.botones {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.descargar {
+  background-color: #2980b9;
+  color: white;
+}
+
+.enviar {
+  background-color: #16a085;
+  color: white;
+}
+
+.loading {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 18px;
+}
+

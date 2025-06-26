@@ -1,0 +1,41 @@
+<div *ngIf="!cargando && boleta" class="boleta-container">
+  <div class="boleta-card">
+    <h2>Boleta de Reserva</h2>
+    <p><strong>Razón Social: </strong>Restaurante Pacha</p>
+    <p><strong>RUC: </strong> 20481234567</p>
+    <p><strong>Boleta N°: </strong> 00001</p>
+    <div class="section">
+      <h3>Información del Cliente</h3>
+      <p><strong>Nombre:</strong> {{ boleta.nombre }} {{ boleta.apellido }}</p>
+      <p><strong>DNI:</strong> {{ boleta.dni }}</p>
+      <p><strong>Email:</strong> {{ boleta.email }}</p>
+      <p><strong>Teléfono:</strong> {{ boleta.telefono }}</p>
+    </div>
+
+    <div class="section">
+      <h3>Detalles de la Reserva</h3>
+      <p><strong>Fecha y Hora:</strong> {{ boleta.fechaHora }}</p>
+      <p><strong>Mesa N°:</strong> {{ boleta.mesa.numeroMesa }}</p>
+      <p><strong>Zona:</strong> {{ boleta.zona.name }}</p>
+      <p><strong>Capacidad de Mesa:</strong> {{ boleta.mesa.capacidad }}</p>
+      <p><strong>Monto Total: </strong> <span class="monto">S/ {{ boleta.total }}</span></p>
+    </div>
+
+    <div class="section">
+      <h3>Términos y Condiciones</h3>
+      <ul>
+        <li>No hay reembolso si el cliente no asiste.</li>
+        <li>Debe llegar 10 minutos antes.</li>
+      </ul>
+    </div>
+
+    <div class="botones">
+      <button class="descargar" (click)="descargarBoletaPDF()">📥 Descargar Boleta</button>
+      <button class="enviar" (click)="enviarBoletaEmail()">📧 Enviar al Correo</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="cargando" class="loading">
+  Cargando boleta...
+</div>

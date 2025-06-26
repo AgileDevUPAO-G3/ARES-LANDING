@@ -3,6 +3,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes'; // asegúrate que esta ruta esté bien
 
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(),
