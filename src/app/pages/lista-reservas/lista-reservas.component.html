@@ -6,6 +6,11 @@
       </div>
     </div>
   </div>
+  <div class="busqueda-reserva">
+    <input type="text" [(ngModel)]="filtro" placeholder="Buscar por nombre o DNI..." />
+    <button (click)="buscarReservas()">Buscar</button>
+    <button (click)="loadReservations()">Limpiar</button>
+  </div>
 
   <div class="container-fluid listas">
     <div class="reserva" *ngFor="let r of reservas">
