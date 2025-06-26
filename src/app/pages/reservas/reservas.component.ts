@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Mesa } from '../../shared/models/mesa.model';
 import { MesaService } from '../../core/services/mesa.service';
 import { DisponibilidadService } from '../../core/services/disponibilidad.service';
@@ -20,18 +20,19 @@ export class ReservasComponent implements OnInit {
   hora: string = '';
   mesas: Mesa[] = [];
 
-  tiempoLimiteSegundos: number = 600; // 10 minutos = 600 segundos
+  mensajeError: string = '';
+
+  tiempoLimiteSegundos: number = 600;
   tiempoRestante: number = 0;
   intervaloId: any = null;
   reservaIniciada: boolean = false;
 
-  // Opciones predeterminadas
-  opcionesPersonas: number[] = [2, 4, 5, 6, 7, 8, 10, 12];
+  opcionesPersonas: number[] = [2, 4, 5, 6, 10, 12];
   opcionesHoras: string[] = [
     '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
     '15:00', '15:30', '16:00', '16:30', '17:00', '17:30',
     '18:00', '18:30', '19:00', '19:30', '20:00', '20:30',
-    '21:00', '21:30', '22:00', '22:30', '23:00'
+    '21:00', '21:30', '22:00'
   ];
 
   posicionesMesa: { [key: number]: { top: string, left: string, width: string, height: string } } = {
@@ -57,27 +58,90 @@ export class ReservasComponent implements OnInit {
     20: { top: '61%', left: '91.1%', width: '3%', height: '26.5%' }
   };
 
-
   constructor(
     private disponibilidadService: DisponibilidadService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      if (params['fecha']) this.fecha = params['fecha'];
+      if (params['hora']) this.hora = params['hora'];
+      if (params['capacidad']) this.personas = Number(params['capacidad']);
+
+      if (this.fecha && this.hora) {
+        this.cargarMesas(false);
+      }
+    });
+  }
 
   get fechaMinima(): string {
     return new Date().toISOString().split('T')[0];
   }
 
-  todosLosFiltrosSeleccionados(): boolean {
-    return this.personas !== null && this.fecha !== '' && this.hora !== '';
+  get fechaMaxima(): string {
+    const hoy = new Date();
+    const max = new Date(hoy);
+    max.setDate(hoy.getDate() + 4);
+    return max.toISOString().split('T')[0];
   }
 
-  cargarMesas(): void {
+  esHoy(): boolean {
+    return this.fecha === new Date().toISOString().split('T')[0];
+  }
+
+  opcionesHorasFiltradas(): string[] {
+    if (!this.esHoy()) return this.opcionesHoras;
+
+    const ahora = new Date();
+    ahora.setHours(ahora.getHours() + 3);
+
+    return this.opcionesHoras.filter(horaStr => {
+      const [h, m] = horaStr.split(':').map(Number);
+      const horaDate = new Date();
+      horaDate.setHours(h, m, 0, 0);
+      return horaDate >= ahora;
+    });
+  }
+
+  todosLosFiltrosSeleccionados(): boolean {
+    return this.fecha !== '' && this.hora !== '';
+  }
+
+  cargarMesas(actualizarUrl: boolean = true): void {
+    this.mensajeError = '';
+
+    if (this.esHoy()) {
+      const ahora = new Date();
+      ahora.setHours(ahora.getHours() + 3);
+      const [h, m] = this.hora.split(':').map(Number);
+      const horaSeleccionada = new Date();
+      horaSeleccionada.setHours(h, m, 0, 0);
+
+      if (horaSeleccionada < ahora) {
+        this.mensajeError = 'Debes reservar con al menos 3 horas de anticipación';
+        return;
+      }
+    }
+
     const payload: Disponibilidad = {
       fecha: this.fecha,
-      hora: this.hora
+      hora: this.hora,
+      capacidad: this.personas ?? undefined
     };
+
+    if (actualizarUrl) {
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: {
+          fecha: this.fecha,
+          hora: this.hora,
+          capacidad: this.personas ?? undefined
+        },
+        queryParamsHandling: 'merge'
+      });
+    }
 
     this.disponibilidadService.consultarDisponibilidad(payload).subscribe({
       next: (data) => {
@@ -86,7 +150,7 @@ export class ReservasComponent implements OnInit {
         const reservaEnProceso = JSON.parse(localStorage.getItem('reservaEnProceso') || 'null');
         if (reservaEnProceso) {
           const ahora = Date.now();
-          const tiempoLimite = 5 * 60 * 1000; // 5 minutos
+          const tiempoLimite = 5 * 60 * 1000;
 
           if (ahora - reservaEnProceso.timestamp <= tiempoLimite) {
             this.mesas = this.mesas.map(m => {
@@ -111,19 +175,6 @@ export class ReservasComponent implements OnInit {
     });
   }
 
-  // empezarReserva(mesa: Mesa): void {
-  //   if (mesa.estado === 'DISPONIBLE') {
-  //     console.log('✔️ Redirigiendo a reserva de mesa:', mesa.numeroMesa);
-
-  //     this.router.navigate(
-  //       ['/registro-reservas', mesa.numeroMesa],
-  //       { queryParams: { fecha: this.fecha, hora: this.hora } }  // ✅ usamos hora directamente
-  //     );
-  //   } else {
-  //     console.warn('⚠️ Mesa no disponible:', mesa);
-  //   }
-  // }
-
   empezarReserva(mesa: Mesa): void {
     if (mesa.estado === 'DISPONIBLE') {
       const reservaTemporal = {
@@ -134,13 +185,10 @@ export class ReservasComponent implements OnInit {
       };
       localStorage.setItem('reservaEnProceso', JSON.stringify(reservaTemporal));
 
-      console.log('✔️ Mesa en reserva temporal:', reservaTemporal);
-
       this.reservaIniciada = true;
       this.tiempoRestante = this.tiempoLimiteSegundos;
       this.iniciarTemporizador();
 
-      // Rediriges a registro-reservas con parámetros
       this.router.navigate(
         ['/registro-reservas', mesa.numeroMesa],
         { queryParams: { fecha: this.fecha, hora: this.hora } }
@@ -150,11 +198,8 @@ export class ReservasComponent implements OnInit {
     }
   }
 
-
   iniciarTemporizador() {
-    if (this.intervaloId) {
-      clearInterval(this.intervaloId);
-    }
+    if (this.intervaloId) clearInterval(this.intervaloId);
     this.intervaloId = setInterval(() => {
       this.tiempoRestante--;
       if (this.tiempoRestante <= 0) {
@@ -162,16 +207,14 @@ export class ReservasComponent implements OnInit {
         this.tiempoRestante = 0;
         alert('El tiempo para completar la reserva ha terminado.');
         this.reservaIniciada = false;
-        this.router.navigate(['/reservas']); // vuelve al home
+        this.router.navigate(['/reservas']);
       }
     }, 1000);
   }
 
   detenerTemporizador() {
-    if (this.intervaloId) {
-      clearInterval(this.intervaloId);
-      this.intervaloId = null;
-    }
+    if (this.intervaloId) clearInterval(this.intervaloId);
+    this.intervaloId = null;
     this.reservaIniciada = false;
     this.tiempoRestante = 0;
   }
@@ -181,6 +224,4 @@ export class ReservasComponent implements OnInit {
     const segundos = this.tiempoRestante % 60;
     return `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
   }
-
 }
-
