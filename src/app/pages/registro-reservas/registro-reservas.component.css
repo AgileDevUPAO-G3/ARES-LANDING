@@ -148,6 +148,7 @@ input.invalid {
   margin-bottom: 20px;
   font-size: 0.9rem;
   color: #555;
+  text-align: justify;
 }
 
 .modal-actions {
@@ -222,4 +223,10 @@ input.invalid {
   color: #28a745;
   background: rgba(255 255 255 / 0.85);
   padding: 0.5rem 1rem;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 5px;
 }

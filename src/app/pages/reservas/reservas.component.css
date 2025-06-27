@@ -205,15 +205,13 @@ button:hover span:after {
   align-items: flex-start; 
   position: absolute;
   top: 210px;              
-  right: 450px; 
+  right: 200px; 
   gap: 10px;
   padding: 10px;
-  /* background-color: #f8f9fa;   */
   border: 2px solid #ffffff;
   border-radius: 10px;
   z-index: 10;
   width: 200px;
-
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6), 0 1px 3px rgba(0, 0, 0, 0.2);  /* Sombra sutil */
 }
 
@@ -244,12 +242,13 @@ button:hover span:after {
   background-color: #dc3545; /* Rojo */
 }
 
+/* Responsividad para pantallas pequeñas */
 @media (max-width: 768px) {
   /* Ajustes para la leyenda */
   .leyenda {
-    width: 90px;  /* Reducimos el ancho en pantallas pequeñas */
+    width: 120px;  /* Reducimos el ancho en pantallas pequeñas */
     right: 10px;   /* Ajustamos la distancia desde el borde derecho */
-    top: 440px;    /* Ajustamos la distancia desde el borde superior */
+    top: 590px;    /* Ajustamos la distancia desde el borde superior */
   }
 
   .leyenda-titulo {
@@ -257,7 +256,7 @@ button:hover span:after {
   }
 
   .estado-leyenda {
-    font-size: 0.4rem;  /* Reducimos el tamaño de la fuente */
+    font-size: 0.6rem;  /* Reducimos el tamaño de la fuente */
     padding: 1px;       /* Reducimos el padding */
   }
 }
@@ -268,7 +267,7 @@ button:hover span:after {
   .leyenda {
     width: 90px;  /* Reducimos aún más el ancho */
     right: 50px;    /* Ajustamos la distancia desde el borde derecho */
-    top: 440px;    /* Ajustamos la distancia desde el borde superior */
+    top: 580px;    /* Ajustamos la distancia desde el borde superior */
   }
 
   .leyenda-titulo {
@@ -276,7 +275,7 @@ button:hover span:after {
   }
 
   .estado-leyenda {
-    font-size: 0.4rem; /* Reducción adicional en el tamaño de la fuente */
+    font-size: 0.5rem; /* Reducción adicional en el tamaño de la fuente */
   }
 }
 

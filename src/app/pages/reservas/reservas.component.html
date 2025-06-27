@@ -24,7 +24,7 @@
   <div class="filtros">
     <!-- Personas -->
     <select [(ngModel)]="personas" class="filtro-input">
-      <option [ngValue]="null" selected>Todos</option>
+      <option [ngValue]="null" selected>Cantidad de personas</option>
       <option *ngFor="let p of opcionesPersonas" [ngValue]="p">
         {{ p }} persona{{ p > 1 ? 's' : '' }}
       </option>
