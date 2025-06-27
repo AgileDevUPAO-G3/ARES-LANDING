@@ -178,6 +178,10 @@ export class ReservasComponent implements OnInit {
     });
   }
 
+  onFechaChange(): void {
+    this.hora = '';
+  }
+
   empezarReserva(mesa: Mesa): void {
     if (mesa.estado === 'DISPONIBLE') {
       const reservaTemporal = {
