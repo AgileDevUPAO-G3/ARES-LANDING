@@ -25,8 +25,8 @@
       <div class="form-row">
         <label for="dni">DNI</label>
         <input type="text" id="dni" name="dni" required maxlength="8" pattern="^[0-9]{8}$" [(ngModel)]="dniCliente"
-          #dniCtrl="ngModel" [class.invalid]="dniCtrl.invalid && dniCtrl.touched" placeholder="Solo 8 números"
-          (input)="validarDNI($event)" (blur)="buscarCliente()" />
+               #dniCtrl="ngModel" [class.invalid]="dniCtrl.invalid && dniCtrl.touched" placeholder="Solo 8 números"
+               (input)="validarDNI($event)" (blur)="buscarCliente()" />
       </div>
 
       <div class="form-row">
@@ -42,29 +42,29 @@
       <div class="form-row">
         <label for="nombre">Nombre</label>
         <input type="text" id="nombre" name="nombre" required pattern="^[a-zA-ZÀ-ÿ\\s]+$" [(ngModel)]="nombreCliente"
-          #nombreCtrl="ngModel" [class.invalid]="nombreCtrl.invalid && nombreCtrl.touched" placeholder="Solo letras"
-          (input)="validarTexto($event)" />
+               #nombreCtrl="ngModel" [class.invalid]="nombreCtrl.invalid && nombreCtrl.touched" placeholder="Solo letras"
+               (input)="validarTexto($event)" />
       </div>
 
       <div class="form-row">
         <label for="apellido">Apellido</label>
         <input type="text" id="apellido" name="apellido" required pattern="^[a-zA-ZÀ-ÿ\\s]+$"
-          [(ngModel)]="apellidoCliente" #apellidoCtrl="ngModel"
-          [class.invalid]="apellidoCtrl.invalid && apellidoCtrl.touched" placeholder="Solo letras"
-          (input)="validarTexto($event)" />
+               [(ngModel)]="apellidoCliente" #apellidoCtrl="ngModel"
+               [class.invalid]="apellidoCtrl.invalid && apellidoCtrl.touched" placeholder="Solo letras"
+               (input)="validarTexto($event)" />
       </div>
 
       <div class="form-row">
         <label for="telefono">Teléfono</label>
         <input type="tel" id="telefono" name="telefono" required maxlength="9" pattern="^[0-9]{7,9}$"
-          placeholder="Solo números" [(ngModel)]="telefonoCliente" #telefonoCtrl="ngModel"
-          [class.invalid]="telefonoCtrl.invalid && telefonoCtrl.touched" (input)="validarTelefono($event)" />
+               placeholder="Solo números" [(ngModel)]="telefonoCliente" #telefonoCtrl="ngModel"
+               [class.invalid]="telefonoCtrl.invalid && telefonoCtrl.touched" (input)="validarTelefono($event)" />
       </div>
 
       <div class="form-row">
         <label for="email">Email</label>
         <input type="email" id="email" name="email" required [(ngModel)]="emailCliente" #emailCtrl="ngModel"
-          [class.invalid]="emailCtrl.invalid && emailCtrl.touched" placeholder="email@ejemplo.com" />
+               [class.invalid]="emailCtrl.invalid && emailCtrl.touched" placeholder="email@ejemplo.com" />
       </div>
 
       <button type="submit" [disabled]="reservationForm.invalid" (click)="abrirModal()">Ir a pagar</button>
@@ -147,5 +147,5 @@
         </div>
       </div>
     </div>
-  </div>
+      </div>
 </main>
