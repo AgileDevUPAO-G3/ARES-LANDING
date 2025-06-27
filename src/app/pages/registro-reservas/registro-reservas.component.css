@@ -148,7 +148,7 @@ input.invalid {
   margin-bottom: 20px;
   font-size: 0.9rem;
   color: #555;
-  text-align: justify;
+  text-align:justify;
 }
 
 .modal-actions {
@@ -230,3 +230,4 @@ input.invalid {
   font-size: 0.9rem;
   margin-top: 5px;
 }
+
