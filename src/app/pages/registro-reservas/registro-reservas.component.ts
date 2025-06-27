@@ -207,7 +207,8 @@ export class RegistroReservasComponent implements OnInit {
 
     this.paymentService.confirmarPagoManual(externalRef, pagoSimulado).subscribe({
       next: () => {
-        this.router.navigate(['/reserva-exitosa']);
+        // Redirige al componente que genera la boleta
+        this.router.navigate(['/boleta', this.reservaCreada!.id]);
       },
       error: (err) => {
         alert('Error al confirmar el pago manual: ' + (err.error?.message || err.message));
