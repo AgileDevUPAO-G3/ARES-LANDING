@@ -97,7 +97,7 @@ export class ReservasComponent implements OnInit {
     if (!this.esHoy()) return this.opcionesHoras;
 
     const ahora = new Date();
-    ahora.setHours(ahora.getHours() + 3);
+    ahora.setHours(ahora.getHours());
 
     return this.opcionesHoras.filter(horaStr => {
       const [h, m] = horaStr.split(':').map(Number);
@@ -116,7 +116,7 @@ export class ReservasComponent implements OnInit {
 
     if (this.esHoy()) {
       const ahora = new Date();
-      ahora.setHours(ahora.getHours() + 3);
+      ahora.setHours(ahora.getHours());
       const [h, m] = this.hora.split(':').map(Number);
       const horaSeleccionada = new Date();
       horaSeleccionada.setHours(h, m, 0, 0);
